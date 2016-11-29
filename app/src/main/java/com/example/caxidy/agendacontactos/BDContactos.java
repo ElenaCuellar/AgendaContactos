@@ -27,7 +27,7 @@ public class BDContactos extends SQLiteOpenHelper {
             "nomFichero VARCHAR(50), observFoto VARCHAR(255), idContacto INT, " +
             "FOREIGN KEY (idContacto) REFERENCES Contactos(id))";
 
-    public BDContactos(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public BDContactos(Context context) {
         super(context, NOMBRE_BASEDATOS,null,VERSION_BASEDATOS);
     }
 
