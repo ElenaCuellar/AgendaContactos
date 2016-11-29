@@ -1,5 +1,6 @@
 package com.example.caxidy.agendacontactos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.nuevoC) {
-            //!!opcion de alta
+            //Se lanza el Activity que nos muestra la interfaz para dar de alta
+            Intent i = new Intent(this,Alta.class);
+            startActivity(i);
+
             return true;
         }
         else if (id == R.id.config){
