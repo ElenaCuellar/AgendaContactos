@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">AgendaContactos</string>
     <string name="nuevoC">Nuevo contacto</string>
-    <string name="config">Configuracion</string>
+    <string name="nombre">Nombre</string>
+    <string name="telefono">Telefono</string>
+    <string name="direccion">Direccion</string>
+    <string name="email">Direccion email</string>
+    <string name="web">Pagina web personal / blog</string>
+    <string name="foto">Foto</string>
+    <string name="alta">Alta</string>
 </resources>

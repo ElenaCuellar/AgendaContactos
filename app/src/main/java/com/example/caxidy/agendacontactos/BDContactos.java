@@ -17,7 +17,7 @@ public class BDContactos extends SQLiteOpenHelper {
     private static final String NOMBRE_TABLA_TELEFONOS = "Telefonos";
     private static final String NOMBRE_TABLA_FOTOS = "Fotos";
     private static final String insC = "CREATE TABLE Contactos (id INT PRIMARY KEY," +
-            "nombre VARCHAR(50), direccion VARCHAR(50), webBlog VARCHAR(100))";
+            "nombre VARCHAR(50), direccion VARCHAR(50), email VARCHAR(50), webBlog VARCHAR(100))";
 
     private static final String insTel = "CREATE TABLE Telefonos (idTelefonos INT PRIMARY KEY," +
             "telefono VARCHAR(45), idContacto INT, " +
@@ -59,6 +59,7 @@ public class BDContactos extends SQLiteOpenHelper {
             valores.put("id", c.getID());
             valores.put("nombre", c.getNombre());
             valores.put("direccion", c.getDireccion());
+            valores.put("email", c.getEmail());
             valores.put("webBlog", c.getWeb());
             numReg = db.insert("contactos", null, valores);
         }
@@ -144,6 +145,7 @@ public class BDContactos extends SQLiteOpenHelper {
             ContentValues valores = new ContentValues();
             valores.put("nombre", c.getNombre());
             valores.put("direccion", c.getDireccion());
+            valores.put("email", c.getEmail());
             valores.put("webBlog", c.getWeb());
             numReg = db.update("contactos", valores, "id=" +
                     c.getID(), null);
@@ -193,7 +195,7 @@ public class BDContactos extends SQLiteOpenHelper {
             Cursor c = db.query("contactos", campos, "id=" + id, null, null,
                     null, null, null);
             if (c.moveToFirst())
-                contacto = new Contacto(c.getInt(0), c.getString(1), c.getString(2), c.getString(3));
+                contacto = new Contacto(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4));
             c.close();
         }
         db.close();

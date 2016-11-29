@@ -3,4 +3,11 @@
     <string name="app_name">AgendaContactos</string>
     <string name="config">Settings</string>
     <string name="nuevoC">New contact</string>
+    <string name="alta">Add</string>
+    <string name="direccion">Address</string>
+    <string name="email">Email address</string>
+    <string name="foto">Photo</string>
+    <string name="nombre">Name</string>
+    <string name="telefono">Telephone</string>
+    <string name="web">Personal webpage/blog</string>
 </resources>

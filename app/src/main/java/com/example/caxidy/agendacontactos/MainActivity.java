@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     //metodos que llaman a la BD:
 
+    //!!alta,baja,consulta y modificar Contacto, Telefono, Foto
     /*public void altaContacto() {
         c = new Contacto(
                 Integer.parseInt(tId.getText().toString()),

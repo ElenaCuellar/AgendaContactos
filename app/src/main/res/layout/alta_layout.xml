@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:id="@+id/fotoUsuario"
+        android:minHeight="75dp"
+        android:minWidth="75dp" />
+
+    <TextView
+        android:text="@string/nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fotoUsuario"
+        android:id="@+id/lbNombre"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text=""
+        android:hint="@string/nombre"
+        android:ems="10"
+        android:layout_below="@id/lbNombre"
+        android:id="@+id/txNombre" />
+
+    <TextView
+        android:text="@string/telefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txNombre"
+        android:id="@+id/lbTelefono"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:text=""
+        android:hint="@string/telefono"
+        android:ems="10"
+        android:layout_below="@id/lbTelefono"
+        android:id="@+id/txTelefono" />
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:layout_below="@id/lbTelefono"
+        android:layout_toRightOf="@id/txTelefono"
+        android:id="@+id/bAltaTel" />
+
+    <TextView
+        android:text="@string/direccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txTelefono"
+        android:id="@+id/lbDir"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text=""
+        android:hint="@string/direccion"
+        android:ems="10"
+        android:layout_below="@id/lbDir"
+        android:id="@+id/txDir" />
+
+    <TextView
+        android:text="@string/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txDir"
+        android:id="@+id/lbEmail"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:text=""
+        android:hint="@string/email"
+        android:ems="10"
+        android:layout_below="@id/lbEmail"
+        android:id="@+id/txEmail" />
+
+    <TextView
+        android:text="@string/web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txEmail"
+        android:id="@+id/lbWeb"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textWebEditText"
+        android:text=""
+        android:hint="@string/web"
+        android:ems="10"
+        android:layout_below="@id/lbWeb"
+        android:id="@+id/txWeb" />
+
+    <TextView
+        android:text="@string/foto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txWeb"
+        android:id="@+id/lbFoto"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textUri"
+        android:text=""
+        android:hint="@string/foto"
+        android:ems="10"
+        android:layout_below="@id/lbFoto"
+        android:id="@+id/txFoto" />
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:layout_below="@id/lbFoto"
+        android:layout_toRightOf="@id/txFoto"
+        android:id="@+id/bAltaFoto" />
+
+    <Button
+        android:text="@string/alta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txFoto"
+        android:id="@+id/bAlta" />
+
+</RelativeLayout>
