@@ -16,6 +16,12 @@ public class Telefono {
         telefono=tel;
     }
 
+    public Telefono(String tel){
+        idTel=0;
+        idContacto=0;
+        telefono=tel;
+    }
+
     public int getId(){return idTel;}
     public int getIdContacto(){return idContacto;}
     public String getTelefono(){return telefono;}

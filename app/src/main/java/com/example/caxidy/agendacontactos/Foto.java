@@ -17,6 +17,13 @@ public class Foto {
         descripcionFoto=desc;
     }
 
+    public Foto(String nom,String desc,int idC){
+        idFoto=0;
+        idContacto=0;
+        nombreFichero=nom;
+        descripcionFoto=desc;
+    }
+
     public int getId(){return idFoto;}
     public int getIdContacto(){return idContacto;}
     public String getNombreFichero(){return nombreFichero;}

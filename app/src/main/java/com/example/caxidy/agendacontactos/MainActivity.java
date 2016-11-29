@@ -17,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     Telefono telefono;
     Foto foto;
     long numReg;
+    private final int SUBACTIVIDAD_ALTA=1;
+    private final int SUBACTIVIDAD_ACTUALIZAR=2;
+    int totalContactos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Crear la BD de SQLite
         bd = new BDContactos(this);
+
+        totalContactos=bd.consultarTotalContactos();
     }
 
     @Override
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.nuevoC) {
             //Se lanza el Activity que nos muestra la interfaz para dar de alta
             Intent i = new Intent(this,Alta.class);
-            startActivity(i);
+            startActivityForResult(i,SUBACTIVIDAD_ALTA);
 
             return true;
         }
@@ -63,30 +68,71 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //metodos que llaman a la BD:
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data); //!!borrar este super si da problemas
 
-    //!!alta,baja,consulta y modificar Contacto, Telefono, Foto
-    /*public void altaContacto() {
-        c = new Contacto(
-                Integer.parseInt(tId.getText().toString()),
-                tNom.getText().toString(),
-                tTel.getText().toString(),
-                tDir.getText().toString(),
-                tEmail.getText().toString(),
-                tWeb.getText().toString(),
-                tFoto.getText().toString(),
-                Float.parseFloat(tX.getText().toString()),
-                Float.parseFloat(tY.getText().toString()));
-        nreg_afectados = bd.insertar(c);
-        if (nreg_afectados <= 0) {
-            Toast.makeText(this,"ERROR : No se ha insertado ningun registro.",Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this, "Registro agregado (" + nreg_afectados + ")", Toast.LENGTH_LONG).show();
-            listadoContactos();
+        if(resultCode==RESULT_OK){
+            if(requestCode==SUBACTIVIDAD_ALTA){
+                //Alta del contacto y de los telefonos y fotos (minimo un telefono y una foto)
+                if((boolean)data.getExtras().get("correcta")) {
+                    altaContacto(data);
+                    altaTel(data);
+                    altaFoto(data);
+                }
+                else
+                    Toast.makeText(this, "Los campos Telefono y Foto no pueden estar vacios", Toast.LENGTH_LONG).show();
+            }
+            else if(requestCode==SUBACTIVIDAD_ACTUALIZAR){
+                //!!tratar los datos de la actividad de borrado, modificacion...
+            }
         }
     }
-    public void bajaContacto() {
+
+    //metodos que llaman a la BD:
+
+    //!!alta,baja,consulta y modificar Contacto, Telefono, Foto -- faltan las funciones de los botones d agregar otro tel o foto
+    public void altaContacto(Intent i) {
+        totalContactos++;
+        contacto = new Contacto(totalContactos, i.getExtras().get("nombre").toString(), i.getExtras().get("direccion").toString(),
+                i.getExtras().get("email").toString(), i.getExtras().get("web").toString());
+        numReg = bd.insertarContacto(contacto);
+        if (numReg <= 0) {
+            Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
+            totalContactos--;
+        } else {
+            Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
+            //!!Añadir el nuevo registro al ListView, actualizar el ListView o lo que sea
+        }
+    }
+
+    public void altaTel(Intent i) { //!!añadir lo necesario para que coja un arrayList con objetos telefono y añada 1 o mas
+        int total=0;
+        total = bd.consultarTotalTel(totalContactos);
+        telefono = new Telefono(total+1, i.getExtras().get("telefono").toString(),totalContactos); //!!comprobar que el Extra de telefono no esta vacio
+        numReg = bd.insertarTelefono(telefono);
+        if (numReg <= 0) {
+            Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
+            //!!Añadir el nuevo registro al ListView, actualizar el ListView o lo que sea
+        }
+    }
+
+    public void altaFoto(Intent i) { //!!añadir lo necesario para que coja un arrayList con objetos foto y añada 1 o mas
+        int total=0;
+        total = bd.consultarTotalFotos(totalContactos);
+        foto = new Foto(total+1, i.getExtras().get("descFoto").toString(),"!!!!!!!nombreFich",totalContactos); //!!!
+        numReg = bd.insertarFotos(foto);
+        if (numReg <= 0) {
+            Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
+            //!!Añadir el nuevo registro al ListView, actualizar el ListView o lo que sea
+        }
+    }
+
+    /*public void bajaContacto() {
         int id = Integer.parseInt(tId.getText().toString());
         if ( id > 0) {
             //sacamos el contacto de la BD
