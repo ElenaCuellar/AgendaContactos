@@ -1,6 +1,8 @@
 /*!! - ojo: el campo de la foto es para el nombre del fichero, por lo que el campo de la tabla Fotos de la descripcion no va
 * ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
-* Parte de ListView: queda añadir a MainActivity, etc*/
+* Parte de ListView: queda la parte 5 etc
+* SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
+* es decir, al borrar un usuario que borre todos sus telefonos y fotos*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
@@ -12,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends ListActivity {
     BDContactos bd;
     Contacto contacto;
@@ -21,18 +25,37 @@ public class MainActivity extends ListActivity {
     private final int SUBACTIVIDAD_ALTA=1;
     private final int SUBACTIVIDAD_ACTUALIZAR=2;
     int totalContactos;
+    AdaptadorContactos adaptadorC;
+    ArrayList<Contacto> listaContactos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //!!!!!setSupportActionBar(toolbar); --> buscar problema y solucionarlo: compatibilidad entre ActionBar y ListActivity
+        //!!setSupportActionBar(toolbar); //!!--> buscar problema y solucionarlo: compatibilidad entre ActionBar y ListActivity
+
+        //Llenar la lista de contactos
+        //!!listaContactos.add(objetoContacto obtenido de una consulta con cursor...hacer metodo);
+
+        adaptadorC = new AdaptadorContactos(this,listaContactos);
+        adaptadorC.notifyDataSetChanged();
+        setListAdapter(adaptadorC);
 
         //Crear la BD de SQLite
         bd = new BDContactos(this);
 
         totalContactos=bd.consultarTotalContactos();
+    }
+
+    @Override
+    protected void onRestart () {
+        super.onRestart();
+        Toast.makeText(this, "Lista de contactos recargada", Toast.LENGTH_SHORT).show();
+        adaptadorC = null;
+        adaptadorC = new AdaptadorContactos(this,listaContactos);
+        adaptadorC.notifyDataSetChanged();
+        setListAdapter(adaptadorC);
     }
 
     @Override

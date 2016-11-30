@@ -1,6 +1,8 @@
 package com.example.caxidy.agendacontactos;
 
-public class Contacto {
+import java.io.Serializable;
+
+public class Contacto implements Serializable{
     int id;
     String nombre, direccion, email,webBlog;
     //float GPS_x, GPS_y;
