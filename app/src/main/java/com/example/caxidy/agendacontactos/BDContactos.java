@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class BDContactos extends SQLiteOpenHelper {
 
     private static Contacto contacto;
@@ -200,6 +202,25 @@ public class BDContactos extends SQLiteOpenHelper {
         }
         db.close();
         return contacto;
+    }
+
+    //Devolver todos los contactos de la tabla Contactos
+    public ArrayList<Contacto> obtenerContactos(){
+        ArrayList<Contacto> arrayContactos = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+            String[] campos = {"id", "nombre", "direccion", "webBlog"};
+            Cursor c = db.query("contactos", campos,null, null, null,
+                    null, null, null);
+            if (c.moveToFirst())
+                do {
+                    contacto = new Contacto(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4));
+                    arrayContactos.add(contacto);
+                }while(c.moveToNext());
+            c.close();
+        }
+        db.close();
+        return arrayContactos;
     }
 
     public Telefono consultarTelefono(int id) {

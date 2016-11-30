@@ -16,6 +16,7 @@ public class AdaptadorContactos extends BaseAdapter {
 
     private ArrayList<Contacto> lista;
     private final Activity actividad;
+    BDContactos bd;
 
     public AdaptadorContactos(Activity a, ArrayList<Contacto> v){
         super();
@@ -27,19 +28,38 @@ public class AdaptadorContactos extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater ly = actividad.getLayoutInflater();
         View view = ly.inflate(R.layout.contacto, null, true);
+
+        //Obtenemos la clase que gestiona la BD para generar consultas, etc
+        MainActivity mainAct = (MainActivity) actividad;
+        bd = mainAct.bd;
+
+        //Llenamos los campos de la vista actual con los datos correspondientes
         TextView tNom= (TextView) view.findViewById(R.id.listNombre);
         tNom.setText(lista.get(position).getNombre());
         TextView tTel= (TextView) view.findViewById(R.id.listTel);
-        tTel.setText(lista.get(position).getID()); //!!--> con la id del contacto hacemos una consulta que saque el primer telefono q coincida con la idContacto y lo ponemos en el texto
-        //!!.....llenamos el resto de campos
+        Telefono tl = bd.consultarTelefono(lista.get(position).getID());
+        if(tl!=null)
+            tTel.setText(tl.getTelefono());
+        else
+            tTel.setText("");
 
-        /*!!Para la foto:
-        File imgFile = new File(lista.get(position).getFoto());
-        if(imgFile.exists()){
-            ImageView im = (ImageView) view.findViewById(R.id.ivItem);
-            im.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
-            im.setAdjustViewBounds(true);
-        }*/
+        TextView tDir= (TextView) view.findViewById(R.id.listDir);
+        tDir.setText(lista.get(position).getDireccion());
+        TextView tEmail= (TextView) view.findViewById(R.id.listEmail);
+        tEmail.setText(lista.get(position).getEmail());
+        TextView tWeb= (TextView) view.findViewById(R.id.listWeb);
+        tWeb.setText(lista.get(position).getWeb());
+
+        Foto ft = bd.consultarFoto(lista.get(position).getID());
+        if(ft!=null) {
+            File archivoImg = new File(ft.getNombreFichero());
+            if(archivoImg.exists()){
+                ImageView im = (ImageView) view.findViewById(R.id.listFoto);
+                im.setImageBitmap(BitmapFactory.decodeFile(archivoImg.getAbsolutePath()));
+                im.setAdjustViewBounds(true);
+            }
+        }
+
         return view;
     }
 

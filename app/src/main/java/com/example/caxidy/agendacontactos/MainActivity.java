@@ -40,7 +40,10 @@ public class MainActivity extends ListActivity {
         //!!setSupportActionBar(toolbar); //!!--> buscar problema y solucionarlo: compatibilidad entre ActionBar y ListActivity
 
         //Llenar la lista de contactos
-        //!!listaContactos.add(objetoContacto obtenido de una consulta con cursor...hacer metodo);
+        ArrayList<Contacto> arrC = bd.obtenerContactos();
+        if(!arrC.isEmpty())
+            for(int i=0;i<arrC.size();i++)
+                listaContactos.add(arrC.get(i));
 
         adaptadorC = new AdaptadorContactos(this,listaContactos);
         adaptadorC.notifyDataSetChanged();
@@ -119,6 +122,10 @@ public class MainActivity extends ListActivity {
     }
 
     //metodos que llaman a la BD:
+
+    public void obtenerContactosList(){
+
+    }
 
     //!!alta,baja,consulta y modificar Contacto, Telefono, Foto -- faltan las funciones de los botones d agregar otro tel o foto
     public void altaContacto(Intent i) {

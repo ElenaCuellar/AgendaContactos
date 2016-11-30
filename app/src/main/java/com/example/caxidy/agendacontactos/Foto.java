@@ -1,6 +1,8 @@
 package com.example.caxidy.agendacontactos;
 
-public class Foto {
+import java.io.Serializable;
+
+public class Foto implements Serializable {
     int idFoto, idContacto;
     String nombreFichero,descripcionFoto;
 
