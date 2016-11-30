@@ -1,8 +1,8 @@
 /*!! - ojo: el campo de la foto es para el nombre del fichero, por lo que el campo de la tabla Fotos de la descripcion no va
 * ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
-* Parte de ListView: queda la parte 5 etc
 * SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
-* es decir, al borrar un usuario que borre todos sus telefonos y fotos*/
+* es decir, al borrar un usuario que borre todos sus telefonos y fotos
+* Error de ListActivity VS AppCompat*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class MainActivity extends ListActivity {
     int totalContactos;
     AdaptadorContactos adaptadorC;
     ArrayList<Contacto> listaContactos;
+    ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,16 @@ public class MainActivity extends ListActivity {
         adaptadorC = new AdaptadorContactos(this,listaContactos);
         adaptadorC.notifyDataSetChanged();
         setListAdapter(adaptadorC);
+
+        listview = (ListView) findViewById(android.R.id.list);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapter, View view, int position, long arg)
+            {
+                Contacto co = (Contacto) listview.getAdapter().getItem(position);
+                //!!hacemos lo necesario: abrir activity de modificar...
+            }
+        });
 
         //Crear la BD de SQLite
         bd = new BDContactos(this);
