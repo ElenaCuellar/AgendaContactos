@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AgendaContactos</string>
     <string name="nuevoC">Nuevo contacto</string>
+    <string name="config">Configuracion</string>
     <string name="nombre">Nombre</string>
     <string name="telefono">Telefono</string>
     <string name="direccion">Direccion</string>
@@ -8,4 +9,12 @@
     <string name="web">Pagina web personal / blog</string>
     <string name="foto">Foto</string>
     <string name="alta">Alta</string>
+
+    <!--Texto por defecto en los items del ListView -->
+    <string name="listNom">Nombre contacto</string>
+    <string name="listTel">Telefono contacto</string>
+    <string name="listDir">Direccion contacto</string>
+    <string name="listEmail">Email contacto</string>
+    <string name="listWeb">Web/Blog contacto</string>
+
 </resources>

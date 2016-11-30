@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/listFoto"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/listFoto">
+
+
+        <TextView
+            android:text="@string/listNom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listNombre"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"/>
+        <TextView
+            android:text="@string/listTel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listTel"
+            android:textSize="@dimen/text_size_medium"/>
+        <TextView
+            android:text="@string/listDir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listDir"
+            android:textSize="@dimen/text_size_medium"/>
+        <TextView
+            android:text="@string/listEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listEmail"
+            android:textSize="@dimen/text_size_medium"/>
+        <TextView
+            android:text="@string/listWeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listWeb"
+            android:textSize="@dimen/text_size_medium"/>
+    </LinearLayout>
+
+</RelativeLayout>

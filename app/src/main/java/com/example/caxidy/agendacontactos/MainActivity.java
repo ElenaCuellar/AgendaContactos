@@ -1,17 +1,18 @@
+/*!! - ojo: el campo de la foto es para el nombre del fichero, por lo que el campo de la tabla Fotos de la descripcion no va
+* ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
+* Parte de ListView: queda añadir a MainActivity, etc*/
 package com.example.caxidy.agendacontactos;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListActivity {
     BDContactos bd;
     Contacto contacto;
     Telefono telefono;
@@ -26,16 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //!!!!!setSupportActionBar(toolbar); --> buscar problema y solucionarlo: compatibilidad entre ActionBar y ListActivity
 
         //Crear la BD de SQLite
         bd = new BDContactos(this);

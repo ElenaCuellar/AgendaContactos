@@ -10,4 +10,9 @@
     <string name="nombre">Name</string>
     <string name="telefono">Telephone</string>
     <string name="web">Personal webpage/blog</string>
+    <string name="listDir">Contact address</string>
+    <string name="listEmail">Contact email</string>
+    <string name="listNom">Contact name</string>
+    <string name="listTel">Contact phone</string>
+    <string name="listWeb">Contact web/blog</string>
 </resources>

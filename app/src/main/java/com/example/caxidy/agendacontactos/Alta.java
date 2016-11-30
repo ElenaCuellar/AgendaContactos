@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ import java.util.ArrayList;
 public class Alta extends AppCompatActivity {
 
     EditText tNombre, tTelefono, tDir, tEmail, tWeb, tFoto;
-    Button bAlta, bTel, bFot;
+    Button bAlta;
+    ImageButton bTel, bFot;
     ArrayList<Telefono> listaTelefonos;
     ArrayList<Foto> listaFotos;
 
@@ -28,6 +30,9 @@ public class Alta extends AppCompatActivity {
         tEmail = (EditText) findViewById(R.id.txEmail);
         tWeb = (EditText) findViewById(R.id.txWeb);
         tFoto = (EditText) findViewById(R.id.txFoto);
+        bAlta = (Button) findViewById(R.id.bAlta);
+        bTel = (ImageButton) findViewById(R.id.bAltaTel);
+        bFot = (ImageButton) findViewById(R.id.bAltaFoto);
 
         bAlta.setOnClickListener(new View.OnClickListener() {
             @Override
