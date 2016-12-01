@@ -220,7 +220,10 @@ public class BDContactos extends SQLiteOpenHelper {
             c.close();
         }
         db.close();
-        return arrayContactos;
+        if(arrayContactos.size()>0)
+            return arrayContactos;
+        else
+            return null;
     }
 
     public Telefono consultarTelefono(int id) {

@@ -15,4 +15,7 @@
     <string name="listNom">Contact name</string>
     <string name="listTel">Contact phone</string>
     <string name="listWeb">Contact web/blog</string>
+    <string name="fotoAg">Photo added</string>
+    <string name="sinD">No description</string>
+    <string name="telAg">Phone added</string>
 </resources>

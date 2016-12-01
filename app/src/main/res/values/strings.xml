@@ -10,6 +10,10 @@
     <string name="foto">Foto</string>
     <string name="alta">Alta</string>
 
+    <string name="telAg">Telefono agregado</string>
+    <string name="fotoAg">Foto agregada</string>
+    <string name="sinD">Sin descripcion</string>
+
     <!--Texto por defecto en los items del ListView -->
     <string name="listNom">Nombre contacto</string>
     <string name="listTel">Telefono contacto</string>

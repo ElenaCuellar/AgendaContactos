@@ -2,13 +2,16 @@
 * ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
 * SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
 * es decir, al borrar un usuario que borre todos sus telefonos y fotos
-* Error de ListActivity VS AppCompat*/
+* Error al dar de alta*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +22,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ListActivity implements AppCompatCallback {
+    private AppCompatDelegate delegate;
     BDContactos bd;
     Contacto contacto;
     Telefono telefono;
@@ -35,13 +39,23 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //!!setSupportActionBar(toolbar); //!!--> buscar problema y solucionarlo: compatibilidad entre ActionBar y ListActivity
 
+        delegate = AppCompatDelegate.create(this,this);
+        delegate.onCreate(savedInstanceState);
+        delegate.setContentView(R.layout.activity_main);
+        //!!si tengo que quitar lo del delegate: setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        delegate.setSupportActionBar(toolbar);
+
+        //Crear la BD de SQLite
+        bd = new BDContactos(this);
+
+        totalContactos=bd.consultarTotalContactos();
+
+        listaContactos = new ArrayList<>();
         //Llenar la lista de contactos
-        ArrayList<Contacto> arrC = bd.obtenerContactos();
-        if(!arrC.isEmpty())
+        ArrayList<Contacto> arrC= bd.obtenerContactos();
+        if(arrC!=null)
             for(int i=0;i<arrC.size();i++)
                 listaContactos.add(arrC.get(i));
 
@@ -58,11 +72,6 @@ public class MainActivity extends ListActivity {
                 //!!hacemos lo necesario: abrir activity de modificar...
             }
         });
-
-        //Crear la BD de SQLite
-        bd = new BDContactos(this);
-
-        totalContactos=bd.consultarTotalContactos();
     }
 
     @Override
@@ -111,6 +120,7 @@ public class MainActivity extends ListActivity {
                     altaContacto(data);
                     altaTel(data);
                     altaFoto(data);
+                    onRestart(); //se actualiza el ListView //!!funciona?
                 }
                 else
                     Toast.makeText(this, "Los campos Telefono y Foto no pueden estar vacios", Toast.LENGTH_LONG).show();
@@ -121,15 +131,22 @@ public class MainActivity extends ListActivity {
         }
     }
 
+    //Metodos de AppCompatCallBack
+    @Override
+    public void onSupportActionModeStarted(ActionMode mode) {}
+
+    @Override
+    public void onSupportActionModeFinished(ActionMode mode) {}
+
+    @Nullable
+    @Override
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {return null;}
+
     //metodos que llaman a la BD:
-
-    public void obtenerContactosList(){
-
-    }
 
     //!!alta,baja,consulta y modificar Contacto, Telefono, Foto -- faltan las funciones de los botones d agregar otro tel o foto
     public void altaContacto(Intent i) {
-        totalContactos++;
+        totalContactos++; //para el indice
         contacto = new Contacto(totalContactos, i.getExtras().get("nombre").toString(), i.getExtras().get("direccion").toString(),
                 i.getExtras().get("email").toString(), i.getExtras().get("web").toString());
         numReg = bd.insertarContacto(contacto);
@@ -137,34 +154,47 @@ public class MainActivity extends ListActivity {
             Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
             totalContactos--;
         } else {
+            listaContactos.add(contacto);
             Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
-            //!!Añadir el nuevo registro al ListView, actualizar el ListView o lo que sea
+        }
+    }
+    //!!si se añade un telefono o foto al modificar no podemos usar totalContactos como idContacto, si no que tenemos que sacar la id del objeto contacto
+    public void altaTel(Intent i) {
+        int contTel=0;
+        int posTel = bd.consultarTotalTel(totalContactos);
+        ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
+        if(!arrTel.isEmpty()) {
+            for(int j=0;j<arrTel.size();j++) {
+                posTel++;
+                telefono = new Telefono(posTel, arrTel.get(j).getTelefono(), totalContactos);
+                numReg = bd.insertarTelefono(telefono);
+                if (numReg <= 0) {
+                    Toast.makeText(this, "ERROR : registro no insertado", Toast.LENGTH_LONG).show();
+                }
+                else
+                    contTel++;
+            }
+            Toast.makeText(this, "Registros insertados: "+contTel, Toast.LENGTH_LONG).show();
+
         }
     }
 
-    public void altaTel(Intent i) { //!!añadir lo necesario para que coja un arrayList con objetos telefono y añada 1 o mas
-        int total=0;
-        total = bd.consultarTotalTel(totalContactos);
-        telefono = new Telefono(total+1, i.getExtras().get("telefono").toString(),totalContactos); //!!comprobar que el Extra de telefono no esta vacio
-        numReg = bd.insertarTelefono(telefono);
-        if (numReg <= 0) {
-            Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
-            //!!Añadir el nuevo registro al ListView, actualizar el ListView o lo que sea
-        }
-    }
-
-    public void altaFoto(Intent i) { //!!añadir lo necesario para que coja un arrayList con objetos foto y añada 1 o mas
-        int total=0;
-        total = bd.consultarTotalFotos(totalContactos);
-        foto = new Foto(total+1, i.getExtras().get("descFoto").toString(),"!!!!!!!nombreFich",totalContactos); //!!!
-        numReg = bd.insertarFotos(foto);
-        if (numReg <= 0) {
-            Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
-            //!!Añadir el nuevo registro al ListView, actualizar el ListView o lo que sea
+    public void altaFoto(Intent i) {
+        int contF=0;
+        int posF = bd.consultarTotalFotos(totalContactos);
+        ArrayList<Foto> arrF = (ArrayList<Foto>) i.getExtras().getSerializable("fotos");
+        if(!arrF.isEmpty()) {
+            for(int j=0;j<arrF.size();j++) {
+                posF++;
+                foto = new Foto(posF, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),totalContactos);
+                numReg = bd.insertarFotos(foto);
+                if (numReg <= 0) {
+                    Toast.makeText(this, "ERROR : registro no insertado", Toast.LENGTH_LONG).show();
+                }
+                else
+                    contF++;
+            }
+            Toast.makeText(this, "Registros insertados: "+contF, Toast.LENGTH_LONG).show();
         }
     }
 

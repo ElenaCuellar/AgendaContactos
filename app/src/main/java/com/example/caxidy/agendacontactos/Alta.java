@@ -61,10 +61,8 @@ public class Alta extends AppCompatActivity {
 
     public void pasarDatosAlta(){
         boolean correcta=true;
-        String tel = tTelefono.getText().toString(); //!!En vez de esto, puedo ver si los arraylist tienen minimo un registro
-        String foto = tFoto.getText().toString();
         Intent datos = new Intent();
-        if(tel.equals("") || foto.equals(""))
+        if(listaTelefonos.isEmpty() || listaFotos.isEmpty())
             correcta = false;
 
         else {
@@ -92,12 +90,19 @@ public class Alta extends AppCompatActivity {
         if(!tTelefono.getText().toString().equals("")) {
             tel = new Telefono(tTelefono.getText().toString());
             listaTelefonos.add(tel);
-            Toast.makeText(getApplicationContext(),"Telefono agregado",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getString(R.string.telAg),Toast.LENGTH_SHORT).show();
         }
     }
 
     public void pasarDatosNuevaImg(){
         //!!en este no se llama a finish(), por lo que las altas se producen al darle a Alta del contacto, q s cierra el activity
         //!!Nombre fichero de la foto: loQPonemosEnElImageView.getPath()???
+
+        Foto fot;
+        if(!tFoto.getText().toString().equals("")) {
+            fot = new Foto(tFoto.getText().toString(),getString(R.string.sinD));
+            listaFotos.add(fot);
+            Toast.makeText(getApplicationContext(),getString(R.string.fotoAg),Toast.LENGTH_SHORT).show();
+        }
     }
 }

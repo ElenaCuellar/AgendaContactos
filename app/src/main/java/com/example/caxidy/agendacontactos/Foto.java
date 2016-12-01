@@ -19,7 +19,7 @@ public class Foto implements Serializable {
         descripcionFoto=desc;
     }
 
-    public Foto(String nom,String desc,int idC){
+    public Foto(String nom,String desc){
         idFoto=0;
         idContacto=0;
         nombreFichero=nom;
