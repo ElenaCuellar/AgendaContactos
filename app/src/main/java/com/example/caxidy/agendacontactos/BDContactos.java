@@ -193,7 +193,7 @@ public class BDContactos extends SQLiteOpenHelper {
         /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String[] campos = {"id", "nombre", "direccion", "webBlog"};
+            String[] campos = {"id", "nombre", "direccion", "email", "webBlog"};
             Cursor c = db.query("contactos", campos, "id=" + id, null, null,
                     null, null, null);
             if (c.moveToFirst())
@@ -209,7 +209,7 @@ public class BDContactos extends SQLiteOpenHelper {
         ArrayList<Contacto> arrayContactos = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String[] campos = {"id", "nombre", "direccion", "webBlog"};
+            String[] campos = {"id", "nombre", "direccion", "email", "webBlog"};
             Cursor c = db.query("contactos", campos,null, null, null,
                     null, null, null);
             if (c.moveToFirst())
@@ -230,7 +230,7 @@ public class BDContactos extends SQLiteOpenHelper {
         /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String[] campos = {"idTelefonos", "telefonos", "idContacto"};
+            String[] campos = {"idTelefonos", "telefono", "idContacto"};
             Cursor c = db.query("telefonos", campos, "idTelefonos=" + id, null, null,
                     null, null, null);
             if (c.moveToFirst())

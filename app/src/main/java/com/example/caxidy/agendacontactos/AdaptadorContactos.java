@@ -52,7 +52,7 @@ public class AdaptadorContactos extends BaseAdapter {
 
         Foto ft = bd.consultarFoto(lista.get(position).getID());
         if(ft!=null) {
-            File archivoImg = new File(ft.getNombreFichero());
+            File archivoImg = new File(ft.getNombreFichero()+".jpg"); //!!aqui supongo q estara el problema d q no s vea la foto: añadir ruta completa...
             if(archivoImg.exists()){
                 ImageView im = (ImageView) view.findViewById(R.id.listFoto);
                 im.setImageBitmap(BitmapFactory.decodeFile(archivoImg.getAbsolutePath()));

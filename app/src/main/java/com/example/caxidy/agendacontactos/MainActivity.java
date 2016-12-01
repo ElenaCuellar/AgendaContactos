@@ -2,7 +2,14 @@
 * ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
 * SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
 * es decir, al borrar un usuario que borre todos sus telefonos y fotos
-* Error al dar de alta*/
+* Error al dar de alta: hacer lo de las variables globales de totalTelefonos y totalFotos
+* Al pulsar el ImageView de alta, seleccionar una img de la galeria y q s copie el nombre del archivo en el campo de foto.
+* Ademas, si solo s añade un telefono y una foto, que no haga falta pulsar en los botones + para añadirlos.
+* En el ListView no se ve la foto!: al pulsar en lo de seleccionar foto, se abre la galeria y seleccionas una foto, esta
+* foto se copia a la carpeta de nuestro proyecto y asi sabemos que las fotos siempre van a tener el mismo path.
+* Luego obtenemos la foto llamando al metodo de obtener el path del proyecto + nombre de la foto + .jpg
+* Para que no se pueda meter a pelo el nombre d la foto en el edittext d foto, habra q desahabilitar y poner un hint
+* adecuado*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
@@ -77,11 +84,11 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
     @Override
     protected void onRestart () {
         super.onRestart();
-        Toast.makeText(this, "Lista de contactos recargada", Toast.LENGTH_SHORT).show();
         adaptadorC = null;
         adaptadorC = new AdaptadorContactos(this,listaContactos);
         adaptadorC.notifyDataSetChanged();
         setListAdapter(adaptadorC);
+        Toast.makeText(this,getString(R.string.listRecarg), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -123,7 +130,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
                     onRestart(); //se actualiza el ListView //!!funciona?
                 }
                 else
-                    Toast.makeText(this, "Los campos Telefono y Foto no pueden estar vacios", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,getString(R.string.noVacios), Toast.LENGTH_LONG).show();
             }
             else if(requestCode==SUBACTIVIDAD_ACTUALIZAR){
                 //!!tratar los datos de la actividad de borrado, modificacion...
@@ -150,12 +157,12 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         contacto = new Contacto(totalContactos, i.getExtras().get("nombre").toString(), i.getExtras().get("direccion").toString(),
                 i.getExtras().get("email").toString(), i.getExtras().get("web").toString());
         numReg = bd.insertarContacto(contacto);
-        if (numReg <= 0) {
-            Toast.makeText(this, "ERROR : No se ha insertado ningun registro.", Toast.LENGTH_LONG).show();
+        if (numReg == -1) {
+            Toast.makeText(this,getString(R.string.errorReg), Toast.LENGTH_LONG).show();
             totalContactos--;
         } else {
             listaContactos.add(contacto);
-            Toast.makeText(this, "Registro insertado (total: " + numReg + ")", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,getString(R.string.regIns), Toast.LENGTH_LONG).show();
         }
     }
     //!!si se añade un telefono o foto al modificar no podemos usar totalContactos como idContacto, si no que tenemos que sacar la id del objeto contacto
@@ -163,38 +170,37 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         int contTel=0;
         int posTel = bd.consultarTotalTel(totalContactos);
         ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
-        if(!arrTel.isEmpty()) {
+        if(arrTel!=null) {
             for(int j=0;j<arrTel.size();j++) {
                 posTel++;
                 telefono = new Telefono(posTel, arrTel.get(j).getTelefono(), totalContactos);
                 numReg = bd.insertarTelefono(telefono);
-                if (numReg <= 0) {
-                    Toast.makeText(this, "ERROR : registro no insertado", Toast.LENGTH_LONG).show();
+                if (numReg == -1) {
+                    Toast.makeText(this,getString(R.string.errorRegTel), Toast.LENGTH_LONG).show();
                 }
                 else
                     contTel++;
             }
-            Toast.makeText(this, "Registros insertados: "+contTel, Toast.LENGTH_LONG).show();
-
+            Toast.makeText(this, getString(R.string.telIns)+contTel, Toast.LENGTH_LONG).show();
         }
     }
 
     public void altaFoto(Intent i) {
         int contF=0;
-        int posF = bd.consultarTotalFotos(totalContactos);
+        int posF = bd.consultarTotalFotos(totalContactos); //!!es mejor hacer un totalFotos y totalTelefonos global como el d contactos, porq la id es unica en general, no para los fotos d un contacto solo...
         ArrayList<Foto> arrF = (ArrayList<Foto>) i.getExtras().getSerializable("fotos");
         if(!arrF.isEmpty()) {
             for(int j=0;j<arrF.size();j++) {
                 posF++;
                 foto = new Foto(posF, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),totalContactos);
                 numReg = bd.insertarFotos(foto);
-                if (numReg <= 0) {
-                    Toast.makeText(this, "ERROR : registro no insertado", Toast.LENGTH_LONG).show();
+                if (numReg == -1) {
+                    Toast.makeText(this, getString(R.string.errorRegF), Toast.LENGTH_LONG).show();
                 }
                 else
                     contF++;
             }
-            Toast.makeText(this, "Registros insertados: "+contF, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.FotIns)+contF, Toast.LENGTH_LONG).show();
         }
     }
 

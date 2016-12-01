@@ -21,4 +21,13 @@
     <string name="listEmail">Email contacto</string>
     <string name="listWeb">Web/Blog contacto</string>
 
+    <string name="listRecarg">Lista de contactos recargada</string>
+    <string name="noVacios">Los campos Telefono y Foto no pueden estar vacios</string>
+    <string name="errorReg">ERROR : No se ha insertado ningun registro</string>
+    <string name="regIns">Registro insertado</string>
+    <string name="errorRegTel">ERROR : No se han insertado telefonos</string>
+    <string name="telIns">Telefonos insertados: </string>
+    <string name="errorRegF">ERROR : No se han insertado fotos</string>
+    <string name="FotIns">Fotos insertadas: </string>
+
 </resources>

@@ -18,4 +18,12 @@
     <string name="fotoAg">Photo added</string>
     <string name="sinD">No description</string>
     <string name="telAg">Phone added</string>
+    <string name="FotIns">"Added photos: "</string>
+    <string name="errorReg">ERROR: No row added</string>
+    <string name="errorRegF">ERROR: No photo added</string>
+    <string name="errorRegTel">ERROR: No phone added</string>
+    <string name="listRecarg">Contact list reloaded</string>
+    <string name="noVacios">Phone and Photo fields cannot be empty</string>
+    <string name="regIns">Row added</string>
+    <string name="telIns">"Phones added: "</string>
 </resources>
