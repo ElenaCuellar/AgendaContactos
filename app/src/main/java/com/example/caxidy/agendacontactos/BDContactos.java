@@ -273,12 +273,12 @@ public class BDContactos extends SQLiteOpenHelper {
         return -1;
     }
 
-    public int consultarTotalTel(int idContacto) {
+    public int consultarTotalTel() {
         /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"COUNT(idTelefonos)"};
-            Cursor c = db.query("telefonos", campos,"idContacto="+idContacto, null, null,
+            Cursor c = db.query("telefonos", campos,null, null, null,
                     null, null, null);
             if (c.moveToFirst())
                 return c.getInt(0);
@@ -288,12 +288,12 @@ public class BDContactos extends SQLiteOpenHelper {
         return -1;
     }
 
-    public int consultarTotalFotos(int idContacto) {
+    public int consultarTotalFotos() {
         /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"COUNT(idFoto)"};
-            Cursor c = db.query("fotos", campos, "idContacto=" + idContacto, null, null,
+            Cursor c = db.query("fotos", campos,null, null, null,
                     null, null, null);
             if (c.moveToFirst())
                 return c.getInt(0);

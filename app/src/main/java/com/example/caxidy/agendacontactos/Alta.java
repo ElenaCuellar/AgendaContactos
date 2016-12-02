@@ -1,14 +1,23 @@
 package com.example.caxidy.agendacontactos;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class Alta extends AppCompatActivity {
@@ -16,8 +25,14 @@ public class Alta extends AppCompatActivity {
     EditText tNombre, tTelefono, tDir, tEmail, tWeb, tFoto;
     Button bAlta;
     ImageButton bTel, bFot;
+    ImageView imVFoto;
     ArrayList<Telefono> listaTelefonos;
     ArrayList<Foto> listaFotos;
+    private static final int FOTO_GALERIA=1, FOTO_CAMARA = 2;
+    Uri fotoGaleria;
+    private static OutputStream os;
+    private static File ruta;
+    private static File ficheroSalida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +48,7 @@ public class Alta extends AppCompatActivity {
         bAlta = (Button) findViewById(R.id.bAlta);
         bTel = (ImageButton) findViewById(R.id.bAltaTel);
         bFot = (ImageButton) findViewById(R.id.bAltaFoto);
+        imVFoto = (ImageView) findViewById(R.id.fotoUsuario);
 
         bAlta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +68,13 @@ public class Alta extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pasarDatosNuevaImg();
+            }
+        });
+
+        imVFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                escogerFoto();
             }
         });
 
@@ -79,13 +102,6 @@ public class Alta extends AppCompatActivity {
     }
 
     public void pasarDatosNuevoTel(){
-        //!!en este no se llama a finish(), por lo que las altas se producen al darle a Alta del contacto, que se cierra el activity
-        //!!La idea aqui y en el de la imagen es simplemente que pase objetos Telefono o Foto a un arraylist, y luego este
-        //arraylist se pasa a los datos del intent que se devuelven al mainActivity, y alli se tratan
-        //Cada vez que se llama a este metodo (al pulsar en el boton de + correspondiente) se añade un objeto del tipo
-        //correspondiente al arraylist de telefonos (o al de fotos) y sale un
-        // Toast avisandolo.
-        // Al pulsar en alta se añaden los datos de los arraylist en el data del intent
         Telefono tel;
         if(!tTelefono.getText().toString().equals("")) {
             tel = new Telefono(tTelefono.getText().toString());
@@ -95,14 +111,68 @@ public class Alta extends AppCompatActivity {
     }
 
     public void pasarDatosNuevaImg(){
-        //!!en este no se llama a finish(), por lo que las altas se producen al darle a Alta del contacto, q s cierra el activity
-        //!!Nombre fichero de la foto: loQPonemosEnElImageView.getPath()???
-
         Foto fot;
         if(!tFoto.getText().toString().equals("")) {
+            //Hacer una copia en el proyecto de la foto
+            copiarArchivo();
+            //Añadir la foto a la lista
             fot = new Foto(tFoto.getText().toString(),getString(R.string.sinD));
             listaFotos.add(fot);
             Toast.makeText(getApplicationContext(),getString(R.string.fotoAg),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Al pulsar sobre el ImageView para la foto de contacto se hace lo siguiente:
+    public void escogerFoto(){
+        Intent intent = new Intent(Intent.ACTION_PICK,
+        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(intent, FOTO_GALERIA);
+        //!!Cambiar el metodo despues,cuando tenga lo de las preferencias configuradas, para que de la opcion de camara o galeria
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FOTO_GALERIA && resultCode == RESULT_OK) {
+            fotoGaleria = data.getData();
+            Bitmap bm;
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
+                //Poner la foto en el imageView
+                imVFoto.setImageBitmap(bm);
+                //Poner la ruta (nombre del fichero) en el edittext
+                tFoto.setText(fotoGaleria.getLastPathSegment()+".jpg");
+            } catch (IOException e) {}
+        }
+        else if (requestCode == FOTO_CAMARA && resultCode == RESULT_OK){
+            Bitmap bm = (Bitmap) data.getExtras().get("data");
+            imVFoto.setImageBitmap(bm);
+        }
+    }
+
+    public void copiarArchivo(){ //!!se copia el archivo del imageView en la carpeta del proyecto
+        String nomFichero = tFoto.getText().toString();
+        if(nomFichero.equals(""))
+            Toast.makeText(getApplicationContext(),"Nombre vacio",Toast.LENGTH_SHORT).show();
+        else {
+            if (imVFoto.getDrawable() == null) {
+                Toast.makeText(getApplicationContext(), "No hemos seleccionado imagen",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                ruta = getExternalFilesDir(null);
+                ficheroSalida = new File(ruta, nomFichero); //!! .jpg ???
+                try {
+                    os = new FileOutputStream(ficheroSalida);
+                } catch (FileNotFoundException e) {
+                }
+                imVFoto.setDrawingCacheEnabled(true);
+                Bitmap bm = imVFoto.getDrawingCache();
+                try {
+                    bm.compress(Bitmap.CompressFormat.JPEG, 50, os);
+                    os.flush();
+                    os.close();
+                } catch (IOException e) {
+                }
+            }
         }
     }
 }

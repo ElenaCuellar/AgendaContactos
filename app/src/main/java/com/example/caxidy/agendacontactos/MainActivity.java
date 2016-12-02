@@ -2,18 +2,19 @@
 * ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
 * SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
 * es decir, al borrar un usuario que borre todos sus telefonos y fotos
-* Error al dar de alta: hacer lo de las variables globales de totalTelefonos y totalFotos
 * Al pulsar el ImageView de alta, seleccionar una img de la galeria y q s copie el nombre del archivo en el campo de foto.
 * Ademas, si solo s añade un telefono y una foto, que no haga falta pulsar en los botones + para añadirlos.
 * En el ListView no se ve la foto!: al pulsar en lo de seleccionar foto, se abre la galeria y seleccionas una foto, esta
 * foto se copia a la carpeta de nuestro proyecto y asi sabemos que las fotos siempre van a tener el mismo path.
 * Luego obtenemos la foto llamando al metodo de obtener el path del proyecto + nombre de la foto + .jpg
 * Para que no se pueda meter a pelo el nombre d la foto en el edittext d foto, habra q desahabilitar y poner un hint
-* adecuado*/
+* adecuado
+* Error: ajustar la imagen al imageview*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatCallback;
@@ -27,6 +28,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends ListActivity implements AppCompatCallback {
@@ -38,7 +43,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
     long numReg;
     private final int SUBACTIVIDAD_ALTA=1;
     private final int SUBACTIVIDAD_ACTUALIZAR=2;
-    int totalContactos;
+    int totalContactos, totalTelefonos, totalFotos;
     AdaptadorContactos adaptadorC;
     ArrayList<Contacto> listaContactos;
     ListView listview;
@@ -57,7 +62,10 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         //Crear la BD de SQLite
         bd = new BDContactos(this);
 
+        //Registros totales de cada registro para sacar la ID
         totalContactos=bd.consultarTotalContactos();
+        totalTelefonos=bd.consultarTotalTel();
+        totalFotos=bd.consultarTotalFotos();
 
         listaContactos = new ArrayList<>();
         //Llenar la lista de contactos
@@ -127,7 +135,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
                     altaContacto(data);
                     altaTel(data);
                     altaFoto(data);
-                    onRestart(); //se actualiza el ListView //!!funciona?
+                    onRestart(); //se actualiza el ListView
                 }
                 else
                     Toast.makeText(this,getString(R.string.noVacios), Toast.LENGTH_LONG).show();
@@ -168,14 +176,14 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
     //!!si se añade un telefono o foto al modificar no podemos usar totalContactos como idContacto, si no que tenemos que sacar la id del objeto contacto
     public void altaTel(Intent i) {
         int contTel=0;
-        int posTel = bd.consultarTotalTel(totalContactos);
         ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
         if(arrTel!=null) {
             for(int j=0;j<arrTel.size();j++) {
-                posTel++;
-                telefono = new Telefono(posTel, arrTel.get(j).getTelefono(), totalContactos);
+                totalTelefonos++;
+                telefono = new Telefono(totalTelefonos, arrTel.get(j).getTelefono(), totalContactos);
                 numReg = bd.insertarTelefono(telefono);
                 if (numReg == -1) {
+                    totalTelefonos--;
                     Toast.makeText(this,getString(R.string.errorRegTel), Toast.LENGTH_LONG).show();
                 }
                 else
@@ -187,14 +195,14 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
 
     public void altaFoto(Intent i) {
         int contF=0;
-        int posF = bd.consultarTotalFotos(totalContactos); //!!es mejor hacer un totalFotos y totalTelefonos global como el d contactos, porq la id es unica en general, no para los fotos d un contacto solo...
         ArrayList<Foto> arrF = (ArrayList<Foto>) i.getExtras().getSerializable("fotos");
-        if(!arrF.isEmpty()) {
+        if(arrF!=null) {
             for(int j=0;j<arrF.size();j++) {
-                posF++;
-                foto = new Foto(posF, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),totalContactos);
+                totalFotos++;
+                foto = new Foto(totalFotos, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),totalContactos);
                 numReg = bd.insertarFotos(foto);
                 if (numReg == -1) {
+                    totalFotos--;
                     Toast.makeText(this, getString(R.string.errorRegF), Toast.LENGTH_LONG).show();
                 }
                 else
