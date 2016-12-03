@@ -1,15 +1,5 @@
-/*!! - ojo: el campo de la foto es para el nombre del fichero, por lo que el campo de la tabla Fotos de la descripcion no va
-* ahi...--> a lo mejor la descripcion es para el atributo contentDescription del ImageView del xml contacto
-* SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
-* es decir, al borrar un usuario que borre todos sus telefonos y fotos
-* Al pulsar el ImageView de alta, seleccionar una img de la galeria y q s copie el nombre del archivo en el campo de foto.
-* Ademas, si solo s añade un telefono y una foto, que no haga falta pulsar en los botones + para añadirlos.
-* En el ListView no se ve la foto!: al pulsar en lo de seleccionar foto, se abre la galeria y seleccionas una foto, esta
-* foto se copia a la carpeta de nuestro proyecto y asi sabemos que las fotos siempre van a tener el mismo path.
-* Luego obtenemos la foto llamando al metodo de obtener el path del proyecto + nombre de la foto + .jpg
-* Para que no se pueda meter a pelo el nombre d la foto en el edittext d foto, habra q desahabilitar y poner un hint
-* adecuado
-* Error: ajustar la imagen al imageview*/
+/*SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
+* es decir, al borrar un usuario que borre todos sus telefonos y fotos*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;

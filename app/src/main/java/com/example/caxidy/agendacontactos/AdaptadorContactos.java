@@ -1,6 +1,7 @@
 package com.example.caxidy.agendacontactos;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class AdaptadorContactos extends BaseAdapter {
 
         Foto ft = bd.consultarFoto(lista.get(position).getID());
         if(ft!=null) {
-            File archivoImg = new File(ft.getNombreFichero()+".jpg"); //!!aqui supongo q estara el problema d q no s vea la foto: añadir ruta completa...
+            File archivoImg = new File(actividad.getExternalFilesDir(null)+"/"+ft.getNombreFichero());
             if(archivoImg.exists()){
                 ImageView im = (ImageView) view.findViewById(R.id.listFoto);
                 im.setImageBitmap(BitmapFactory.decodeFile(archivoImg.getAbsolutePath()));

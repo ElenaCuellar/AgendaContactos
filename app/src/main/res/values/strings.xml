@@ -8,6 +8,7 @@
     <string name="email">Direccion email</string>
     <string name="web">Pagina web personal / blog</string>
     <string name="foto">Foto</string>
+    <string name="fotoHint">Pulse la imagen superior...</string>
     <string name="alta">Alta</string>
 
     <string name="telAg">Telefono agregado</string>
@@ -29,5 +30,8 @@
     <string name="telIns">Telefonos insertados: </string>
     <string name="errorRegF">ERROR : No se han insertado fotos</string>
     <string name="FotIns">Fotos insertadas: </string>
+
+    <string name="fotNomVac">Nombre vacio</string>
+    <string name="fotNoSelImg">No se ha seleccionado una imagen</string>
 
 </resources>

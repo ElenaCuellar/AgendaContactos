@@ -85,9 +85,21 @@ public class Alta extends AppCompatActivity {
     public void pasarDatosAlta(){
         boolean correcta=true;
         Intent datos = new Intent();
+
+        //En caso de haber metido solo un telefono o una foto y no haber pulsado los botones '+' para añadir otros...
+        if(listaTelefonos.isEmpty() && !(tTelefono.getText().toString().equals(""))){
+            Telefono tel = new Telefono(tTelefono.getText().toString());
+            listaTelefonos.add(tel);
+        }
+        if(listaFotos.isEmpty() && !(tFoto.getText().toString().equals(""))){
+            copiarArchivo();
+            Foto fot = new Foto(tFoto.getText().toString(),getString(R.string.sinD));
+            listaFotos.add(fot);
+        }
+
+        //Ahora, si hemos metido al menos una foto y un telefono se agregara el contacto
         if(listaTelefonos.isEmpty() || listaFotos.isEmpty())
             correcta = false;
-
         else {
             datos.putExtra("nombre", tNombre.getText().toString());
             datos.putExtra("telefonos", listaTelefonos);
@@ -137,29 +149,33 @@ public class Alta extends AppCompatActivity {
             Bitmap bm;
             try {
                 bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
+                Bitmap bResized = Bitmap.createBitmap(bm,0,0,imVFoto.getWidth(),imVFoto.getHeight()); //Redimensionamos la imagen en el imageView
                 //Poner la foto en el imageView
-                imVFoto.setImageBitmap(bm);
+                imVFoto.setImageBitmap(bResized);
                 //Poner la ruta (nombre del fichero) en el edittext
                 tFoto.setText(fotoGaleria.getLastPathSegment()+".jpg");
             } catch (IOException e) {}
         }
         else if (requestCode == FOTO_CAMARA && resultCode == RESULT_OK){
             Bitmap bm = (Bitmap) data.getExtras().get("data");
-            imVFoto.setImageBitmap(bm);
+            Bitmap bResized = Bitmap.createBitmap(bm,0,0,imVFoto.getWidth(),imVFoto.getHeight());
+            imVFoto.setImageBitmap(bResized);
+            tFoto.setText(fotoGaleria.getLastPathSegment()+".jpg");
         }
     }
 
-    public void copiarArchivo(){ //!!se copia el archivo del imageView en la carpeta del proyecto
+    //Se copia el archivo del imageView en la carpeta del proyecto
+    public void copiarArchivo(){
         String nomFichero = tFoto.getText().toString();
         if(nomFichero.equals(""))
-            Toast.makeText(getApplicationContext(),"Nombre vacio",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getString(R.string.fotNomVac),Toast.LENGTH_SHORT).show();
         else {
             if (imVFoto.getDrawable() == null) {
-                Toast.makeText(getApplicationContext(), "No hemos seleccionado imagen",
+                Toast.makeText(getApplicationContext(),getString(R.string.fotNoSelImg),
                         Toast.LENGTH_LONG).show();
             } else {
                 ruta = getExternalFilesDir(null);
-                ficheroSalida = new File(ruta, nomFichero); //!! .jpg ???
+                ficheroSalida = new File(ruta, nomFichero);
                 try {
                     os = new FileOutputStream(ficheroSalida);
                 } catch (FileNotFoundException e) {

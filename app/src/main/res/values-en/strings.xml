@@ -26,4 +26,7 @@
     <string name="noVacios">Phone and Photo fields cannot be empty</string>
     <string name="regIns">Row added</string>
     <string name="telIns">"Phones added: "</string>
+    <string name="fotNoSelImg">No image chosen</string>
+    <string name="fotNomVac">Empty name</string>
+    <string name="fotoHint">Tap the top image...</string>
 </resources>

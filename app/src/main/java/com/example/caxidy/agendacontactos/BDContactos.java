@@ -92,7 +92,7 @@ public class BDContactos extends SQLiteOpenHelper {
         if (db != null) {
         /* en este metodo utilizaremos ContentValues */
             ContentValues valores = new ContentValues();
-            valores.put("ifFoto", fot.getId());
+            valores.put("idFoto", fot.getId());
             valores.put("nomFichero",fot.getNombreFichero());
             valores.put("observFoto",fot.getDescripcionFoto());
             valores.put("idContacto",fot.getIdContacto());
