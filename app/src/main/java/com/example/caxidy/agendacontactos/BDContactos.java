@@ -156,40 +156,10 @@ public class BDContactos extends SQLiteOpenHelper {
         return numReg;
     }
 
-    public long modificarTelefonos(Telefono tel){
-        long numReg = -1;
-        /* Abrimos la BD de Escritura */
-        SQLiteDatabase db = getWritableDatabase();
-        if (db != null) {
-            ContentValues valores = new ContentValues();
-            valores.put("telefono", tel.getTelefono());
-            valores.put("idContacto", tel.getIdContacto());
-            numReg = db.update("telefonos", valores, "idTelefonos=" +
-                    tel.getId(), null);
-        }
-        db.close();
-        return numReg;
-    }
-
-    public long modificarFotos(Foto fot){
-        long numReg = -1;
-        /* Abrimos la BD de Escritura */
-        SQLiteDatabase db = getWritableDatabase();
-        if (db != null) {
-            ContentValues valores = new ContentValues();
-            valores.put("nomFichero", fot.getNombreFichero());
-            valores.put("observFoto", fot.getDescripcionFoto());
-            valores.put("idContacto", fot.getIdContacto());
-            numReg = db.update("fotos", valores, "ifFoto=" +
-                    fot.getId(), null);
-        }
-        db.close();
-        return numReg;
-    }
-
     /*SELECT de Contactos, Telefonos y Fotos*/
 
     public Contacto consultarContacto(int id) {
+        contacto=null;
         /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {

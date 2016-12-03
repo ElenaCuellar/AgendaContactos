@@ -1,10 +1,12 @@
 /*SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
-* es decir, al borrar un usuario que borre todos sus telefonos y fotos*/
+* es decir, al borrar un usuario que borre todos sus telefonos y fotos.
+* -Pulsar borrar, que borra a ese contacto y todas sus fotos y telefonos
+* -Pulsar alguna accion del drawer
+* -Logo*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatCallback;
@@ -18,10 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends ListActivity implements AppCompatCallback {
@@ -58,11 +56,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         totalFotos=bd.consultarTotalFotos();
 
         listaContactos = new ArrayList<>();
-        //Llenar la lista de contactos
-        ArrayList<Contacto> arrC= bd.obtenerContactos();
-        if(arrC!=null)
-            for(int i=0;i<arrC.size();i++)
-                listaContactos.add(arrC.get(i));
+        llenarLista();
 
         adaptadorC = new AdaptadorContactos(this,listaContactos);
         adaptadorC.notifyDataSetChanged();
@@ -74,9 +68,25 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
             public void onItemClick(AdapterView adapter, View view, int position, long arg)
             {
                 Contacto co = (Contacto) listview.getAdapter().getItem(position);
-                //!!hacemos lo necesario: abrir activity de modificar...
+                //Abrir la actividad para modificar un contacto
+                abrirModificar(co);
             }
         });
+    }
+
+    public void abrirModificar(Contacto co){
+        Intent i = new Intent(this,Modificacion.class);
+        i.putExtra("codigoModif",co.getID());
+        startActivityForResult(i,SUBACTIVIDAD_ACTUALIZAR);
+    }
+
+    public void llenarLista(){
+        listaContactos.clear();
+        //Llenar la lista de contactos
+        ArrayList<Contacto> arrC= bd.obtenerContactos();
+        if(arrC!=null)
+            for(int i=0;i<arrC.size();i++)
+                listaContactos.add(arrC.get(i));
     }
 
     @Override
@@ -107,7 +117,10 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
             return true;
         }
         else if (id == R.id.config){
-            //!!opcion de preferencias
+            //Preferencias
+            Intent i = new Intent(this,Preferencias.class);
+            startActivity(i);
+
             return true;
         }
 
@@ -131,7 +144,13 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
                     Toast.makeText(this,getString(R.string.noVacios), Toast.LENGTH_LONG).show();
             }
             else if(requestCode==SUBACTIVIDAD_ACTUALIZAR){
-                //!!tratar los datos de la actividad de borrado, modificacion...
+                //Modificacion del contacto
+                if((boolean)data.getExtras().get("modificar"))
+                    modificarContacto(data);
+
+                //Si se ha borrado un contacto, solo recargamos el ListView
+                llenarLista();
+                onRestart();
             }
         }
     }
@@ -163,7 +182,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
             Toast.makeText(this,getString(R.string.regIns), Toast.LENGTH_LONG).show();
         }
     }
-    //!!si se añade un telefono o foto al modificar no podemos usar totalContactos como idContacto, si no que tenemos que sacar la id del objeto contacto
+
     public void altaTel(Intent i) {
         int contTel=0;
         ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
@@ -190,6 +209,53 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
             for(int j=0;j<arrF.size();j++) {
                 totalFotos++;
                 foto = new Foto(totalFotos, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),totalContactos);
+                numReg = bd.insertarFotos(foto);
+                if (numReg == -1) {
+                    totalFotos--;
+                    Toast.makeText(this, getString(R.string.errorRegF), Toast.LENGTH_LONG).show();
+                }
+                else
+                    contF++;
+            }
+            Toast.makeText(this, getString(R.string.FotIns)+contF, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void modificarContacto(Intent i){
+        contacto = new Contacto(Integer.parseInt(i.getExtras().get("id").toString()), i.getExtras().get("nombre").toString(),
+                i.getExtras().get("direccion").toString(), i.getExtras().get("email").toString(),
+                i.getExtras().get("web").toString());
+        numReg = bd.modificarContacto(contacto);
+        if (numReg == -1) {
+            Toast.makeText(this,getString(R.string.errorModif), Toast.LENGTH_LONG).show();
+            totalContactos--;
+        } else
+            Toast.makeText(this,getString(R.string.regModif), Toast.LENGTH_LONG).show();
+
+        //Añadir nuevos telefonos y fotos:
+        int contTel=0;
+        ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
+        if(arrTel!=null) {
+            for(int j=0;j<arrTel.size();j++) {
+                totalTelefonos++;
+                telefono = new Telefono(totalTelefonos, arrTel.get(j).getTelefono(), Integer.parseInt(i.getExtras().get("id").toString()));
+                numReg = bd.insertarTelefono(telefono);
+                if (numReg == -1) {
+                    totalTelefonos--;
+                    Toast.makeText(this,getString(R.string.errorRegTel), Toast.LENGTH_LONG).show();
+                }
+                else
+                    contTel++;
+            }
+            Toast.makeText(this, getString(R.string.telIns)+contTel, Toast.LENGTH_LONG).show();
+        }
+
+        int contF=0;
+        ArrayList<Foto> arrF = (ArrayList<Foto>) i.getExtras().getSerializable("fotos");
+        if(arrF!=null) {
+            for(int j=0;j<arrF.size();j++) {
+                totalFotos++;
+                foto = new Foto(totalFotos, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),Integer.parseInt(i.getExtras().get("id").toString()));
                 numReg = bd.insertarFotos(foto);
                 if (numReg == -1) {
                     totalFotos--;
@@ -258,8 +324,6 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
                     tEmail.getText().toString(),
                     tWeb.getText().toString(),
                     tFoto.getText().toString(),
-                    Float.parseFloat(tX.getText().toString()),
-                    Float.parseFloat(tY.getText().toString()));
             nreg_afectados = bd.modificar(c);
             if (nreg_afectados <= 0) {
                 Toast.makeText(this,"ERROR : No se ha modificado el registro",Toast.LENGTH_LONG).show();

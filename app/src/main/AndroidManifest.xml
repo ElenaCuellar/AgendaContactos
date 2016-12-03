@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Alta"></activity>
+        <activity android:name=".Preferencias"></activity>
+        <activity android:name=".Modificacion"></activity>
     </application>
 
 </manifest>

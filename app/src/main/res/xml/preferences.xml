@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="grupo"
+        android:title="@string/prefGrupo">
+
+        <ListPreference
+            android:key="tipoFoto"
+            android:title="@string/prefFoto"
+            android:summary="@string/prefDescripcion"
+            android:entries="@array/tipos_img"
+            android:entryValues="@array/tipos_img_values"
+            android:defaultValue="Galeria" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/itemLlamar"
+            android:icon="@android:drawable/ic_menu_call"
+            android:title="@string/itllamar" />
+        <item
+            android:id="@+id/itemEmail"
+            android:icon="@android:drawable/ic_dialog_email"
+            android:title="@string/itemail" />
+        <item
+            android:id="@+id/itemWeb"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="@string/itweb" />
+        <item
+            android:id="@+id/itemFoto"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="@string/itfoto" />
+    </group>
+</menu>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AgendaContactos</string>
     <string name="nuevoC">Nuevo contacto</string>
-    <string name="config">Configuracion</string>
+    <string name="prefs">Preferencias</string>
     <string name="nombre">Nombre</string>
     <string name="telefono">Telefono</string>
     <string name="direccion">Direccion</string>
@@ -30,8 +30,29 @@
     <string name="telIns">Telefonos insertados: </string>
     <string name="errorRegF">ERROR : No se han insertado fotos</string>
     <string name="FotIns">Fotos insertadas: </string>
+    <string name="errorModif">ERROR : No se ha modificado ningun registro</string>
+    <string name="regModif">Registro modificado</string>
 
     <string name="fotNomVac">Nombre vacio</string>
     <string name="fotNoSelImg">No se ha seleccionado una imagen</string>
+
+    <!--Textos de las preferencias -->
+    <string name="prefGrupo">Preferencias de imagen</string>
+    <string name="prefFoto">Escoja la fuente de la imagen</string>
+    <string name="prefDescripcion">Escoja si prefiere usar la galeria o la camara</string>
+
+    <!--Textos del drawer -->
+    <string name="cabecera">ACCIONES</string>
+    <string name="descripcionCab">Seleccione lo que desee hacer</string>
+    <string name="itllamar">Llamar por telefono</string>
+    <string name="itemail">Mandar un e-mail</string>
+    <string name="itweb">Ir a web o blog</string>
+    <string name="itfoto">Tomar foto</string>
+    <string name="navOpen">Abrir Navigation Drawer </string>
+    <string name="navClos">Cerrar Navigation Drawer </string>
+
+    <string name="modif">Modificar</string>
+    <string name="borrar">Borrar</string>
+
 
 </resources>

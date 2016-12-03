@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AgendaContactos</string>
-    <string name="config">Settings</string>
     <string name="nuevoC">New contact</string>
     <string name="alta">Add</string>
     <string name="direccion">Address</string>
@@ -29,4 +28,20 @@
     <string name="fotNoSelImg">No image chosen</string>
     <string name="fotNomVac">Empty name</string>
     <string name="fotoHint">Tap the top image...</string>
+    <string name="prefGrupo">Image preferences</string>
+    <string name="prefFoto">Choose the source of the image</string>
+    <string name="prefDescripcion">Choose whether you prefer the gallery or the camera</string>
+    <string name="prefs">Preferences</string>
+    <string name="cabecera">ACTIONS</string>
+    <string name="descripcionCab">Choose what to do</string>
+    <string name="itemail">Send an e-mail</string>
+    <string name="itfoto">Take a photo</string>
+    <string name="itllamar">Call by phone</string>
+    <string name="itweb">Go to the website/blog</string>
+    <string name="borrar">Delete</string>
+    <string name="modif">Modify</string>
+    <string name="navClos">Close Navigation Drawer</string>
+    <string name="navOpen">Open Navigation Drawer</string>
+    <string name="errorModif">ERROR: No row modified</string>
+    <string name="regModif">Row modified</string>
 </resources>
