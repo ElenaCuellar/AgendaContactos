@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/listFoto"
         android:layout_width="?android:attr/listPreferredItemHeight"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:src="@android:drawable/ic_menu_camera"
         android:layout_alignParentLeft="true"
@@ -16,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/listDatos"
         android:layout_toRightOf="@id/listFoto">
 
 
@@ -26,12 +29,14 @@
             android:id="@+id/listNombre"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"/>
+
         <TextView
             android:text="@string/listTel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/listTel"
             android:textSize="@dimen/text_size_medium"/>
+
         <TextView
             android:text="@string/listDir"
             android:layout_width="match_parent"
@@ -50,6 +55,29 @@
             android:layout_height="wrap_content"
             android:id="@+id/listWeb"
             android:textSize="@dimen/text_size_medium"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:id="@+id/listBotones"
+        android:layout_below="@id/listDatos"
+        android:layout_toRightOf="@id/listFoto">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/sym_action_email"
+            android:id="@+id/listSms" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/sym_action_call"
+            android:id="@+id/listLlamar" />
     </LinearLayout>
 
 </RelativeLayout>

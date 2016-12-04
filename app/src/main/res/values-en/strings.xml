@@ -53,4 +53,5 @@
     <string name="errWeb">Web field is empty</string>
     <string name="asunto">Topic</string>
     <string name="textoDef">Default text</string>
+    <string name="textoSMS">Message body</string>
 </resources>

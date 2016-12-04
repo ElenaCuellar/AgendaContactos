@@ -41,6 +41,8 @@
     <string name="borrarFot">Fotos borradas: </string>
     <string name="borrarErr">ERROR: no se produjo el borrado correctamente</string>
 
+    <string name="textoSMS">Texto del mensaje</string>
+
     <!--Textos de las preferencias -->
     <string name="prefGrupo">Preferencias de imagen</string>
     <string name="prefFoto">Escoja la fuente de la imagen</string>

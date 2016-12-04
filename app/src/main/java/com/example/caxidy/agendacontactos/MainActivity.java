@@ -1,10 +1,12 @@
-/*-Ejercicio 1: añadir los botones llamar y sms a cada item de la lista
-* -Ampliacion opcional: añadir dos acciones mas al drawer:
+/*-Ampliacion opcional: añadir dos acciones mas al drawer:
 * 1)Borrar o modificar los telefonos del contacto concreto
 * 2)Borrar o modificar las fotos del contacto concreto
 * Para ello, pueden ser dos ListView en los que, para los telefonos (cada item) se vea un telefono en un editText y dos botones: confirmar modificacion
 * (se puede modificar el telefono del edittext --> update de la bd) y borrar telefono. Para las fotos, cada item tendra un
  * imageView con la foto, un Textview con el nombre del archivo y un boton para borrar la foto de la bd*/
+
+/*Proyecto de fin de trimestre: agenda de contactos + ejercicio 1: poner botones en los elementos del ListView*/
+
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
