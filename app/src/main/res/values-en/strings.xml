@@ -44,4 +44,13 @@
     <string name="navOpen">Open Navigation Drawer</string>
     <string name="errorModif">ERROR: No row modified</string>
     <string name="regModif">Row modified</string>
+    <string name="borrarC">Contact deleted.</string>
+    <string name="borrarErr">ERROR: the deletion was not successful</string>
+    <string name="borrarFot">"Deleted photos: "</string>
+    <string name="borrarTel">"Deleted phones: "</string>
+    <string name="errDial">Phone field is empty</string>
+    <string name="errEmail">Email field is empty</string>
+    <string name="errWeb">Web field is empty</string>
+    <string name="asunto">Topic</string>
+    <string name="textoDef">Default text</string>
 </resources>

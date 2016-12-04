@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import  java.util.Calendar;
 
 public class Alta extends AppCompatActivity {
 
@@ -30,12 +31,12 @@ public class Alta extends AppCompatActivity {
     ImageView imVFoto;
     ArrayList<Telefono> listaTelefonos;
     ArrayList<Foto> listaFotos;
-    BDContactos bd;
     private static final int FOTO_GALERIA=1, FOTO_CAMARA = 2;
     Uri fotoGaleria;
     private static OutputStream os;
     private static File ruta;
     private static File ficheroSalida;
+    Calendar calendario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,6 @@ public class Alta extends AppCompatActivity {
         bTel = (ImageButton) findViewById(R.id.bAltaTel);
         bFot = (ImageButton) findViewById(R.id.bAltaFoto);
         imVFoto = (ImageView) findViewById(R.id.fotoUsuario);
-
-        bd = new BDContactos(this);
 
         bAlta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,13 +166,20 @@ public class Alta extends AppCompatActivity {
                 //Poner la foto en el imageView
                 imVFoto.setImageBitmap(bResized);
                 //Poner la ruta (nombre del fichero) en el edittext
-                tFoto.setText(fotoGaleria.getLastPathSegment()+".jpg");
+                StringBuffer cadenaArchivo= new StringBuffer(fotoGaleria.getLastPathSegment()); //si el nombre del Edittext es muy largo, no coge bien toda la cadena...
+                if(cadenaArchivo.length()>22)
+                    cadenaArchivo.setLength(22);
+                tFoto.setText(cadenaArchivo+".jpg");
             } catch (IOException e) {}
         }
         else if (requestCode == FOTO_CAMARA && resultCode == RESULT_OK){
             Bitmap bm = (Bitmap) data.getExtras().get("data");
             imVFoto.setImageBitmap(bm);
-            tFoto.setText("IMG_AgCont_00"+bd.consultarTotalFotos()+".jpg");
+            //Para ponerle la fecha y hora a las fotos sacadas con la camara (para nombre unico)
+            calendario = Calendar.getInstance();
+            tFoto.setText("AgCont_"+calendario.get(Calendar.YEAR)+calendario.get(Calendar.MONTH)+calendario.get(Calendar.DAY_OF_MONTH)+
+                    calendario.get(Calendar.HOUR_OF_DAY)+calendario.get(Calendar.MINUTE)+
+                    calendario.get(Calendar.SECOND)+calendario.get(Calendar.MILLISECOND)+".jpg");
         }
     }
 

@@ -136,8 +136,9 @@
         android:layout_height="wrap_content"
         android:inputType="textUri"
         android:text=""
-        android:hint="@string/foto"
-        android:ems="10"
+        android:hint="@string/fotoHint"
+        android:ems="14"
+        android:textSize="@dimen/text_size_small"
         android:layout_below="@id/lbFoto"
         android:id="@+id/txFoto" />
 

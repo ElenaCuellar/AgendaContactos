@@ -1,8 +1,10 @@
-/*SQLite tiene foreign key pero no funciona, por lo que para hacer la funcino de foreign key hay que hacerlo con triggers:
-* es decir, al borrar un usuario que borre todos sus telefonos y fotos.
-* -Pulsar borrar, que borra a ese contacto y todas sus fotos y telefonos
-* -Pulsar alguna accion del drawer
-* -Logo*/
+/*-Ejercicio 1: añadir los botones llamar y sms a cada item de la lista
+* -Ampliacion opcional: añadir dos acciones mas al drawer:
+* 1)Borrar o modificar los telefonos del contacto concreto
+* 2)Borrar o modificar las fotos del contacto concreto
+* Para ello, pueden ser dos ListView en los que, para los telefonos (cada item) se vea un telefono en un editText y dos botones: confirmar modificacion
+* (se puede modificar el telefono del edittext --> update de la bd) y borrar telefono. Para las fotos, cada item tendra un
+ * imageView con la foto, un Textview con el nombre del archivo y un boton para borrar la foto de la bd*/
 package com.example.caxidy.agendacontactos;
 
 import android.app.ListActivity;
@@ -43,7 +45,6 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         delegate = AppCompatDelegate.create(this,this);
         delegate.onCreate(savedInstanceState);
         delegate.setContentView(R.layout.activity_main);
-        //!!si tengo que quitar lo del delegate: setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         delegate.setSupportActionBar(toolbar);
 
@@ -129,7 +130,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data); //!!borrar este super si da problemas
+        super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode==RESULT_OK){
             if(requestCode==SUBACTIVIDAD_ALTA){
@@ -168,7 +169,6 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
 
     //metodos que llaman a la BD:
 
-    //!!alta,baja,consulta y modificar Contacto, Telefono, Foto -- faltan las funciones de los botones d agregar otro tel o foto
     public void altaContacto(Intent i) {
         totalContactos++; //para el indice
         contacto = new Contacto(totalContactos, i.getExtras().get("nombre").toString(), i.getExtras().get("direccion").toString(),
@@ -267,70 +267,4 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
             Toast.makeText(this, getString(R.string.FotIns)+contF, Toast.LENGTH_LONG).show();
         }
     }
-
-    /*public void bajaContacto() {
-        int id = Integer.parseInt(tId.getText().toString());
-        if ( id > 0) {
-            //sacamos el contacto de la BD
-            c = bd.consultar(id);
-            nreg_afectados = bd.borrar(c);
-            if (nreg_afectados <= 0) {
-                Toast.makeText(this,"No se ha borrado ningun registro.",Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(this,"Registro borrado.",Toast.LENGTH_LONG).show();
-                tId.setText("");
-                tNom.setText("");
-                tTel.setText("");
-                tDir.setText("");
-                tEmail.setText("");
-                tWeb.setText("");
-                tFoto.setText("");
-                tX.setText("");
-                tY.setText("");
-                listadoContactos();
-            }
-        }
-    }
-
-    public void consultaContacto() {
-        int id = Integer.parseInt(tId.getText().toString());
-        if ( id > 0) {
-            c = bd.consultar(id);
-            if(c.getID() == -1) {
-                Toast.makeText(this,"Registro no Localizado",Toast.LENGTH_LONG).show();
-            }
-            else {
-                tNom.setText(c.getNombre());
-                tTel.setText(c.getTelefono());
-                tDir.setText(c.getDireccion());
-                tEmail.setText(c.getEmail());
-                tWeb.setText(c.getWeb());
-                tFoto.setText(c.getFoto());
-                tX.setText(Float.toString(c.getGPS_x()));
-                tY.setText(Float.toString(c.getGPS_y()));
-            }
-        }
-    }
-
-    public void modificaContacto() {
-        int id = Integer.parseInt(tId.getText().toString());
-        if ( id > 0) {
-            c = new Contacto(
-                    Integer.parseInt(tId.getText().toString()),
-                    tNom.getText().toString(),
-                    tTel.getText().toString(),
-                    tDir.getText().toString(),
-                    tEmail.getText().toString(),
-                    tWeb.getText().toString(),
-                    tFoto.getText().toString(),
-            nreg_afectados = bd.modificar(c);
-            if (nreg_afectados <= 0) {
-                Toast.makeText(this,"ERROR : No se ha modificado el registro",Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this,"Registro modificado.",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    */
 }

@@ -138,7 +138,8 @@
         android:text=""
         android:hint="@string/fotoHint"
         android:enabled="false"
-        android:ems="10"
+        android:ems="14"
+        android:textSize="@dimen/text_size_small"
         android:layout_below="@id/lbFoto"
         android:id="@+id/txFoto" />
 

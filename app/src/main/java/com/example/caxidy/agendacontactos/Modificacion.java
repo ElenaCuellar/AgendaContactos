@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Modificacion extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -47,6 +48,7 @@ public class Modificacion extends AppCompatActivity
     int idC;
     String telefonoPpal, fotoPpal;
     boolean modificar;
+    Calendar calendario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,13 +149,36 @@ public class Modificacion extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.itemLlamar) {
-            //!!
+            if(!tTelefono.getText().toString().equals("")) {
+                Intent i = new Intent(Intent.ACTION_DIAL);
+                i.setData(Uri.parse("tel:" + tTelefono.getText().toString()));
+                startActivity(i);
+            }
+            else
+                Toast.makeText(getApplicationContext(),getString(R.string.errDial),Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.itemEmail) {
-            //!!
+            if(!tEmail.getText().toString().equals("")) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.asunto));
+                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.textoDef));
+                i.putExtra(Intent.EXTRA_EMAIL, new String[] {tEmail.getText().toString()});
+                startActivity(i);
+            }
+            else
+                Toast.makeText(getApplicationContext(),getString(R.string.errEmail),Toast.LENGTH_SHORT).show();
         } else if (id == R.id.itemWeb){
-            //!!
+            if(!tWeb.getText().toString().equals("")) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("http://"+tWeb.getText().toString()));
+                startActivity(i);
+            }
+            else
+                Toast.makeText(getApplicationContext(),getString(R.string.errWeb),Toast.LENGTH_SHORT).show();
         } else {
-            //!!
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivityForResult(intent, FOTO_CAMARA);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,7 +235,17 @@ public class Modificacion extends AppCompatActivity
 
     public void borrarContacto(){
         modificar=false;
-        //!! hacer la transaccion de borrar el contacto d la bd aqui --> trigger...
+        long numRF=-1,numRT=-1,numRC=-1;
+        //Borramos al contacto seleccionado de la BD, ademas de todos sus telefonos y fotos
+        numRF=bd.borrarFotos(idC);
+        numRT=bd.borrarTelefonos(idC);
+        numRC=bd.borrarContacto(idC);
+
+        if(numRF!=-1 && numRT!=-1 && numRC!=-1)
+            Toast.makeText(getApplicationContext(),getString(R.string.borrarC) +
+                    "\n"+getString(R.string.borrarTel)+numRT+"\n"+getString(R.string.borrarFot)+numRF,Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getApplicationContext(),getString(R.string.borrarErr),Toast.LENGTH_SHORT).show();
 
         Intent datos = new Intent();
         datos.putExtra("modificar",modificar);
@@ -267,13 +302,19 @@ public class Modificacion extends AppCompatActivity
                 //Poner la foto en el imageView
                 imVFoto.setImageBitmap(bResized);
                 //Poner la ruta (nombre del fichero) en el edittext
-                tFoto.setText(fotoGaleria.getLastPathSegment()+".jpg");
+                StringBuffer cadenaArchivo= new StringBuffer(fotoGaleria.getLastPathSegment()); //si el nombre del Edittext es muy largo, no coge bien toda la cadena...
+                if(cadenaArchivo.length()>22)
+                    cadenaArchivo.setLength(22);
+                tFoto.setText(cadenaArchivo+".jpg");
             } catch (IOException e) {}
         }
         else if (requestCode == FOTO_CAMARA && resultCode == RESULT_OK){
             Bitmap bm = (Bitmap) data.getExtras().get("data");
             imVFoto.setImageBitmap(bm);
-            tFoto.setText("IMG_AgCont_00"+bd.consultarTotalFotos()+".jpg");
+            calendario = Calendar.getInstance();
+            tFoto.setText("AgCont_" + calendario.get(Calendar.YEAR) + calendario.get(Calendar.MONTH) + calendario.get(Calendar.DAY_OF_MONTH) +
+                    calendario.get(Calendar.HOUR_OF_DAY) + calendario.get(Calendar.MINUTE) +
+                    calendario.get(Calendar.SECOND) + calendario.get(Calendar.MILLISECOND) + ".jpg");
         }
     }
 

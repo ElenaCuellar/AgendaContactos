@@ -5,6 +5,7 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -138,7 +139,8 @@
         android:text=""
         android:enabled="false"
         android:hint="@string/fotoHint"
-        android:ems="10"
+        android:ems="14"
+        android:textSize="@dimen/text_size_small"
         android:layout_below="@id/lbFoto"
         android:id="@+id/txFoto" />
 

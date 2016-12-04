@@ -104,34 +104,32 @@ public class BDContactos extends SQLiteOpenHelper {
 
     /*DELETE de Contactos, Telefonos y Fotos*/
 
-    public long borrarContacto(Contacto c) {
+    public long borrarContacto(int idC) {
         long numReg = -1;
         /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-            numReg = db.delete("contactos", "id=" + c.getID(), null);
+            numReg = db.delete("contactos", "id=" + idC, null);
         }
         db.close();
         return numReg;
     }
 
-    public long borrarTelefono(Telefono tel) {
+    public long borrarTelefonos(int idContacto) {
         long numReg = -1;
-        /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-            numReg = db.delete("telefonos", "idTelefonos=" + tel.getId(), null);
+            numReg = db.delete("telefonos", "idContacto=" + idContacto, null);
         }
         db.close();
         return numReg;
     }
 
-    public long borrarFoto(Foto fot) {
+    public long borrarFotos(int idContacto) {
         long numReg = -1;
-        /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-            numReg = db.delete("fotos", "idFoto=" + fot.getId(), null);
+            numReg = db.delete("fotos", "idContacto=" + idContacto, null);
         }
         db.close();
         return numReg;
@@ -197,7 +195,6 @@ public class BDContactos extends SQLiteOpenHelper {
     }
 
     public Telefono consultarTelefono(int id) {
-        /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"idTelefonos", "telefono", "idContacto"};
@@ -212,7 +209,6 @@ public class BDContactos extends SQLiteOpenHelper {
     }
 
     public Foto consultarFoto(int id) {
-        /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"idFoto", "nomFichero", "observFoto", "idContacto"};
@@ -229,7 +225,6 @@ public class BDContactos extends SQLiteOpenHelper {
     /*Consultar total de registros*/
 
     public int consultarTotalContactos() {
-        /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"COUNT(id)"};
@@ -244,7 +239,6 @@ public class BDContactos extends SQLiteOpenHelper {
     }
 
     public int consultarTotalTel() {
-        /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"COUNT(idTelefonos)"};
@@ -259,7 +253,6 @@ public class BDContactos extends SQLiteOpenHelper {
     }
 
     public int consultarTotalFotos() {
-        /* Abrimos la BD de Lectura */
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"COUNT(idFoto)"};

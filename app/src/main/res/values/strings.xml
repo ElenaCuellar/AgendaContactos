@@ -36,6 +36,11 @@
     <string name="fotNomVac">Nombre vacio</string>
     <string name="fotNoSelImg">No se ha seleccionado una imagen</string>
 
+    <string name="borrarC">Contacto borrado.</string>
+    <string name="borrarTel">Telefonos borrados: </string>
+    <string name="borrarFot">Fotos borradas: </string>
+    <string name="borrarErr">ERROR: no se produjo el borrado correctamente</string>
+
     <!--Textos de las preferencias -->
     <string name="prefGrupo">Preferencias de imagen</string>
     <string name="prefFoto">Escoja la fuente de la imagen</string>
@@ -54,5 +59,10 @@
     <string name="modif">Modificar</string>
     <string name="borrar">Borrar</string>
 
+    <string name="errDial">El campo del telefono esta vacio</string>
+    <string name="errEmail">El campo del correo esta vacio</string>
+    <string name="errWeb">El campo de la web esta vacio</string>
+    <string name="asunto">Asunto</string>
+    <string name="textoDef">Texto por defecto</string>
 
 </resources>
