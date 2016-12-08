@@ -1,155 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.caxidy.agendacontactos.Modificacion"
-    tools:showIn="@layout/app_bar_main">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:id="@+id/fotoUsuario"
-        android:minHeight="75dp"
-        android:minWidth="75dp" />
-
-    <TextView
-        android:text="@string/nombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fotoUsuario"
-        android:id="@+id/lbNombre"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
-
-    <EditText
+    tools:showIn="@layout/app_bar_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text=""
-        android:hint="@string/nombre"
-        android:ems="10"
-        android:layout_below="@id/lbNombre"
-        android:id="@+id/txNombre" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="@string/telefono"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txNombre"
-        android:id="@+id/lbTelefono"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/content_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:text=""
-        android:hint="@string/telefono"
-        android:ems="10"
-        android:layout_below="@id/lbTelefono"
-        android:id="@+id/txTelefono" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_camera"
+                android:id="@+id/fotoUsuario"
+                android:minHeight="75dp"
+                android:minWidth="75dp" />
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:layout_below="@id/lbTelefono"
-        android:layout_toRightOf="@id/txTelefono"
-        android:id="@+id/bAltaTel" />
+            <TextView
+                android:text="@string/nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fotoUsuario"
+                android:id="@+id/lbNombre"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
-    <TextView
-        android:text="@string/direccion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txTelefono"
-        android:id="@+id/lbDir"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text=""
+                android:hint="@string/nombre"
+                android:ems="10"
+                android:layout_below="@id/lbNombre"
+                android:id="@+id/txNombre" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text=""
-        android:hint="@string/direccion"
-        android:ems="10"
-        android:layout_below="@id/lbDir"
-        android:id="@+id/txDir" />
+            <TextView
+                android:text="@string/telefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txNombre"
+                android:id="@+id/lbTelefono"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
-    <TextView
-        android:text="@string/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txDir"
-        android:id="@+id/lbEmail"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:text=""
+                android:hint="@string/telefono"
+                android:ems="10"
+                android:layout_below="@id/lbTelefono"
+                android:id="@+id/txTelefono" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:text=""
-        android:hint="@string/email"
-        android:ems="10"
-        android:layout_below="@id/lbEmail"
-        android:id="@+id/txEmail" />
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_input_add"
+                android:layout_below="@id/lbTelefono"
+                android:layout_toRightOf="@id/txTelefono"
+                android:id="@+id/bAltaTel" />
 
-    <TextView
-        android:text="@string/web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txEmail"
-        android:id="@+id/lbWeb"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+            <TextView
+                android:text="@string/direccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txTelefono"
+                android:id="@+id/lbDir"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textWebEditText"
-        android:text=""
-        android:hint="@string/web"
-        android:ems="10"
-        android:layout_below="@id/lbWeb"
-        android:id="@+id/txWeb" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text=""
+                android:hint="@string/direccion"
+                android:ems="10"
+                android:layout_below="@id/lbDir"
+                android:id="@+id/txDir" />
 
-    <TextView
-        android:text="@string/foto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txWeb"
-        android:id="@+id/lbFoto"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+            <TextView
+                android:text="@string/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txDir"
+                android:id="@+id/lbEmail"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textUri"
-        android:text=""
-        android:enabled="false"
-        android:hint="@string/fotoHint"
-        android:ems="14"
-        android:textSize="@dimen/text_size_small"
-        android:layout_below="@id/lbFoto"
-        android:id="@+id/txFoto" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:text=""
+                android:hint="@string/email"
+                android:ems="10"
+                android:layout_below="@id/lbEmail"
+                android:id="@+id/txEmail" />
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:layout_below="@id/lbFoto"
-        android:layout_toRightOf="@id/txFoto"
-        android:id="@+id/bAltaFoto" />
+            <TextView
+                android:text="@string/web"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txEmail"
+                android:id="@+id/lbWeb"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
-</RelativeLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textWebEditText"
+                android:text=""
+                android:hint="@string/web"
+                android:ems="10"
+                android:layout_below="@id/lbWeb"
+                android:id="@+id/txWeb" />
+
+            <TextView
+                android:text="@string/foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txWeb"
+                android:id="@+id/lbFoto"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:text=""
+                android:enabled="false"
+                android:hint="@string/fotoHint"
+                android:ems="14"
+                android:textSize="@dimen/text_size_small"
+                android:layout_below="@id/lbFoto"
+                android:id="@+id/txFoto" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_input_add"
+                android:layout_below="@id/lbFoto"
+                android:layout_toRightOf="@id/txFoto"
+                android:id="@+id/bAltaFoto" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

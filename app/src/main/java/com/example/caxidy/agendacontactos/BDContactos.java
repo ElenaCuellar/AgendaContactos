@@ -139,7 +139,6 @@ public class BDContactos extends SQLiteOpenHelper {
 
     public long modificarContacto(Contacto c){
         long numReg = -1;
-        /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             ContentValues valores = new ContentValues();
@@ -222,14 +221,14 @@ public class BDContactos extends SQLiteOpenHelper {
         return foto;
     }
 
-    /*Consultar total de registros*/
+    /*Consulta el ultimo registro*/
 
-    public int consultarTotalContactos() {
+    public int consultarUltimoContacto(){
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String[] campos = {"COUNT(id)"};
-            Cursor c = db.query("contactos", campos,null, null, null,
-                    null, null, null);
+            String[] campos = {"id"};
+            Cursor c = db.query("contactos", campos, null, null, null,
+                    null, "id DESC");
             if (c.moveToFirst())
                 return c.getInt(0);
             c.close();
@@ -238,12 +237,12 @@ public class BDContactos extends SQLiteOpenHelper {
         return -1;
     }
 
-    public int consultarTotalTel() {
+    public int consultarUltimoTelefono(){
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String[] campos = {"COUNT(idTelefonos)"};
-            Cursor c = db.query("telefonos", campos,null, null, null,
-                    null, null, null);
+            String[] campos = {"idTelefonos"};
+            Cursor c = db.query("telefonos", campos, null, null, null,
+                    null, "idTelefonos DESC");
             if (c.moveToFirst())
                 return c.getInt(0);
             c.close();
@@ -252,12 +251,12 @@ public class BDContactos extends SQLiteOpenHelper {
         return -1;
     }
 
-    public int consultarTotalFotos() {
+    public int consultarUltimaFoto(){
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            String[] campos = {"COUNT(idFoto)"};
-            Cursor c = db.query("fotos", campos,null, null, null,
-                    null, null, null);
+            String[] campos = {"idFoto"};
+            Cursor c = db.query("fotos", campos, null, null, null,
+                    null, "idFoto DESC");
             if (c.moveToFirst())
                 return c.getInt(0);
             c.close();

@@ -1,8 +1,10 @@
 package com.example.caxidy.agendacontactos;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +24,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import  java.util.Calendar;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class Alta extends AppCompatActivity {
 
@@ -84,6 +89,70 @@ public class Alta extends AppCompatActivity {
 
         listaTelefonos = new ArrayList<>();
         listaFotos = new ArrayList<>();
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        tNombre.setText(sharedPref.getString("shNombre", ""));
+        tTelefono.setText(sharedPref.getString("shTel", ""));
+        tDir.setText(sharedPref.getString("shDir", ""));
+        tEmail.setText(sharedPref.getString("shEmail", ""));
+        tWeb.setText(sharedPref.getString("shWeb", ""));
+        tFoto.setText(sharedPref.getString("shFoto",""));
+
+        if(!sharedPref.getString("shFoto","").equals("")) {
+            File img = new File(getExternalFilesDir(null) + "/" + tFoto.getText().toString());
+            if (img.exists()) {
+                imVFoto.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
+                imVFoto.setAdjustViewBounds(true);
+            }
+        }
+
+        Set<String> setT=sharedPref.getStringSet("shTels",null);
+        if(setT!=null) {
+            String[] arrT = (String[]) setT.toArray();
+            for (int i = 0; i < arrT.length; i++) {
+                Telefono tel = new Telefono(arrT[i]);
+                listaTelefonos.add(tel);
+            }
+        }
+
+        Set<String> setF=sharedPref.getStringSet("shFotos",null);
+        if(setF!=null) {
+            String[] arrF = (String[]) setF.toArray();
+            for (int i = 0; i < arrF.length; i++) {
+                Foto fot = new Foto(arrF[i], getString(R.string.sinD));
+                listaFotos.add(fot);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("shNombre",tNombre.getText().toString());
+        editor.putString("shTel",tTelefono.getText().toString());
+        editor.putString("shDir",tDir.getText().toString());
+        editor.putString("shEmail",tEmail.getText().toString());
+        editor.putString("shWeb",tWeb.getText().toString());
+        editor.putString("shFoto",tFoto.getText().toString());
+
+        if(listaTelefonos.size()>0) {
+            Set<String> setTel = new HashSet<>();
+            for (int i = 0; i < listaTelefonos.size(); i++)
+                setTel.add(listaTelefonos.get(i).getTelefono());
+            editor.putStringSet("shTels", setTel);
+        }
+
+        if(listaFotos.size()>0) {
+            Set<String> setFotos = new HashSet<>();
+            for (int i = 0; i < listaFotos.size(); i++)
+                setFotos.add(listaFotos.get(i).getNombreFichero());
+            editor.putStringSet("shFotos", setFotos);
+        }
+
+        editor.commit();
     }
 
     public void pasarDatosAlta(){

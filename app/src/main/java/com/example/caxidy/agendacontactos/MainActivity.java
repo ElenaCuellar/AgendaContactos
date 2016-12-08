@@ -1,9 +1,11 @@
-/*-Ampliacion opcional: añadir dos acciones mas al drawer:
+/*Ampliacion opcional: añadir dos acciones mas al drawer:
 * 1)Borrar o modificar los telefonos del contacto concreto
 * 2)Borrar o modificar las fotos del contacto concreto
 * Para ello, pueden ser dos ListView en los que, para los telefonos (cada item) se vea un telefono en un editText y dos botones: confirmar modificacion
 * (se puede modificar el telefono del edittext --> update de la bd) y borrar telefono. Para las fotos, cada item tendra un
- * imageView con la foto, un Textview con el nombre del archivo y un boton para borrar la foto de la bd*/
+ * imageView con la foto, un Textview para añadir un comentario a la foto, un boton para agregar el comentario ("Actualizar foto")
+ * y un boton para borrar la foto de la bd.
+ * Finalmente, en esta ampliacion hay que usar SharedPreferences para el edittext del telefono y el edittext de la descripcion de la foto*/
 
 /*Proyecto de fin de trimestre: agenda de contactos + ejercicio 1: poner botones en los elementos del ListView*/
 
@@ -35,7 +37,7 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
     long numReg;
     private final int SUBACTIVIDAD_ALTA=1;
     private final int SUBACTIVIDAD_ACTUALIZAR=2;
-    int totalContactos, totalTelefonos, totalFotos;
+    int ultimoContacto, ultimoTelefono, ultimaFoto;
     AdaptadorContactos adaptadorC;
     ArrayList<Contacto> listaContactos;
     ListView listview;
@@ -53,10 +55,10 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         //Crear la BD de SQLite
         bd = new BDContactos(this);
 
-        //Registros totales de cada registro para sacar la ID
-        totalContactos=bd.consultarTotalContactos();
-        totalTelefonos=bd.consultarTotalTel();
-        totalFotos=bd.consultarTotalFotos();
+        //Ultima ID de cada tabla
+        ultimoContacto=bd.consultarUltimoContacto();
+        ultimoTelefono=bd.consultarUltimoTelefono();
+        ultimaFoto=bd.consultarUltimaFoto();
 
         listaContactos = new ArrayList<>();
         llenarLista();
@@ -172,13 +174,13 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
     //metodos que llaman a la BD:
 
     public void altaContacto(Intent i) {
-        totalContactos++; //para el indice
-        contacto = new Contacto(totalContactos, i.getExtras().get("nombre").toString(), i.getExtras().get("direccion").toString(),
+        ultimoContacto++; //para el indice
+        contacto = new Contacto(ultimoContacto, i.getExtras().get("nombre").toString(), i.getExtras().get("direccion").toString(),
                 i.getExtras().get("email").toString(), i.getExtras().get("web").toString());
         numReg = bd.insertarContacto(contacto);
         if (numReg == -1) {
             Toast.makeText(this,getString(R.string.errorReg), Toast.LENGTH_LONG).show();
-            totalContactos--;
+            ultimoContacto--;
         } else {
             listaContactos.add(contacto);
             Toast.makeText(this,getString(R.string.regIns), Toast.LENGTH_LONG).show();
@@ -190,11 +192,11 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
         if(arrTel!=null) {
             for(int j=0;j<arrTel.size();j++) {
-                totalTelefonos++;
-                telefono = new Telefono(totalTelefonos, arrTel.get(j).getTelefono(), totalContactos);
+                ultimoTelefono++;
+                telefono = new Telefono(ultimoTelefono, arrTel.get(j).getTelefono(), ultimoContacto);
                 numReg = bd.insertarTelefono(telefono);
                 if (numReg == -1) {
-                    totalTelefonos--;
+                    ultimoTelefono--;
                     Toast.makeText(this,getString(R.string.errorRegTel), Toast.LENGTH_LONG).show();
                 }
                 else
@@ -209,11 +211,11 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         ArrayList<Foto> arrF = (ArrayList<Foto>) i.getExtras().getSerializable("fotos");
         if(arrF!=null) {
             for(int j=0;j<arrF.size();j++) {
-                totalFotos++;
-                foto = new Foto(totalFotos, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),totalContactos);
+                ultimaFoto++;
+                foto = new Foto(ultimaFoto, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),ultimoContacto);
                 numReg = bd.insertarFotos(foto);
                 if (numReg == -1) {
-                    totalFotos--;
+                    ultimaFoto--;
                     Toast.makeText(this, getString(R.string.errorRegF), Toast.LENGTH_LONG).show();
                 }
                 else
@@ -230,7 +232,6 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         numReg = bd.modificarContacto(contacto);
         if (numReg == -1) {
             Toast.makeText(this,getString(R.string.errorModif), Toast.LENGTH_LONG).show();
-            totalContactos--;
         } else
             Toast.makeText(this,getString(R.string.regModif), Toast.LENGTH_LONG).show();
 
@@ -239,11 +240,11 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         ArrayList<Telefono> arrTel = (ArrayList<Telefono>) i.getExtras().getSerializable("telefonos");
         if(arrTel!=null) {
             for(int j=0;j<arrTel.size();j++) {
-                totalTelefonos++;
-                telefono = new Telefono(totalTelefonos, arrTel.get(j).getTelefono(), Integer.parseInt(i.getExtras().get("id").toString()));
+                ultimoTelefono++;
+                telefono = new Telefono(ultimoTelefono, arrTel.get(j).getTelefono(), Integer.parseInt(i.getExtras().get("id").toString()));
                 numReg = bd.insertarTelefono(telefono);
                 if (numReg == -1) {
-                    totalTelefonos--;
+                    ultimoTelefono--;
                     Toast.makeText(this,getString(R.string.errorRegTel), Toast.LENGTH_LONG).show();
                 }
                 else
@@ -256,11 +257,11 @@ public class MainActivity extends ListActivity implements AppCompatCallback {
         ArrayList<Foto> arrF = (ArrayList<Foto>) i.getExtras().getSerializable("fotos");
         if(arrF!=null) {
             for(int j=0;j<arrF.size();j++) {
-                totalFotos++;
-                foto = new Foto(totalFotos, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),Integer.parseInt(i.getExtras().get("id").toString()));
+                ultimaFoto++;
+                foto = new Foto(ultimaFoto, arrF.get(j).getNombreFichero(),arrF.get(j).getDescripcionFoto(),Integer.parseInt(i.getExtras().get("id").toString()));
                 numReg = bd.insertarFotos(foto);
                 if (numReg == -1) {
-                    totalFotos--;
+                    ultimaFoto--;
                     Toast.makeText(this, getString(R.string.errorRegF), Toast.LENGTH_LONG).show();
                 }
                 else
