@@ -18,5 +18,14 @@
             android:id="@+id/itemFoto"
             android:icon="@android:drawable/ic_menu_camera"
             android:title="@string/itfoto" />
+        <item
+            android:id="@+id/itemTelefonos"
+            android:icon="@android:drawable/stat_sys_speakerphone"
+            android:title="@string/itTel" />
+        <item
+            android:id="@+id/itemFotos"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/itFot" />
     </group>
+
 </menu>

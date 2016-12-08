@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:text=""
+        android:ems="10"
+        android:id="@+id/unTelefono" />
+
+    <Button
+        android:text="@string/unTelMod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/unTelefono"
+        android:id="@+id/unTelBMod" />
+
+    <Button
+        android:text="@string/unTelBorrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/unTelefono"
+        android:layout_toRightOf="@id/unTelBMod"
+        android:id="@+id/unTelBBorrar" />
+</RelativeLayout>

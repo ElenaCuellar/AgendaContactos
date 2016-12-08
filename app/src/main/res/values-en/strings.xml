@@ -54,4 +54,8 @@
     <string name="asunto">Topic</string>
     <string name="textoDef">Default text</string>
     <string name="textoSMS">Message body</string>
+    <string name="itFot">Manage contact photos</string>
+    <string name="itTel">Manage contact phones</string>
+    <string name="unTelBorrar">Delete</string>
+    <string name="unTelMod">Modify</string>
 </resources>

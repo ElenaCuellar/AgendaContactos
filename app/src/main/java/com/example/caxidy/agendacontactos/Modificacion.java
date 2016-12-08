@@ -40,7 +40,7 @@ public class Modificacion extends AppCompatActivity
     ArrayList<Foto> listaFotos;
     BDContactos bd;
     Contacto contacto;
-    private static final int FOTO_GALERIA=1, FOTO_CAMARA = 2;
+    private static final int FOTO_GALERIA=1, FOTO_CAMARA = 2, SUBACTIVIDAD_TELEFONOS=3;
     Uri fotoGaleria;
     private static OutputStream os;
     private static File ruta;
@@ -176,9 +176,18 @@ public class Modificacion extends AppCompatActivity
             }
             else
                 Toast.makeText(getApplicationContext(),getString(R.string.errWeb),Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (id==R.id.itemFoto){
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivityForResult(intent, FOTO_CAMARA);
+
+        } else if (id==R.id.itemTelefonos){
+            //Se abre un activity con un ListView para los telefonos de ese contacto
+            Intent i = new Intent(this,TelefonosContacto.class);
+            i.putExtra("idContac",idC);
+            startActivityForResult(i,SUBACTIVIDAD_TELEFONOS); //!! al terminar con los telefonos hay q actualizar la pantalla d
+            //!! modificar por si se ha borrado el primer telefono o foto.
+        } else {
+            //!! ListView de las fotos
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -315,6 +324,9 @@ public class Modificacion extends AppCompatActivity
             tFoto.setText("AgCont_" + calendario.get(Calendar.YEAR) + calendario.get(Calendar.MONTH) + calendario.get(Calendar.DAY_OF_MONTH) +
                     calendario.get(Calendar.HOUR_OF_DAY) + calendario.get(Calendar.MINUTE) +
                     calendario.get(Calendar.SECOND) + calendario.get(Calendar.MILLISECOND) + ".jpg");
+        }
+        else if (requestCode == SUBACTIVIDAD_TELEFONOS && resultCode == RESULT_OK){
+            //!!!!!actualizar los datos del activity de modificar...
         }
     }
 

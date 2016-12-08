@@ -55,6 +55,8 @@
     <string name="itemail">Mandar un e-mail</string>
     <string name="itweb">Ir a web o blog</string>
     <string name="itfoto">Tomar foto</string>
+    <string name="itTel">Gestionar tels. del contacto</string>
+    <string name="itFot">Gestionar fotos del contacto</string>
     <string name="navOpen">Abrir Navigation Drawer </string>
     <string name="navClos">Cerrar Navigation Drawer </string>
 
@@ -66,5 +68,9 @@
     <string name="errWeb">El campo de la web esta vacio</string>
     <string name="asunto">Asunto</string>
     <string name="textoDef">Texto por defecto</string>
+
+    <!-- Strings de los listview de los telefonos y las fotos de un contacto -->
+    <string name="unTelMod">Modificar</string>
+    <string name="unTelBorrar">Eliminar</string>
 
 </resources>
