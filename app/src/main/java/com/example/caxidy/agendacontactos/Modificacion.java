@@ -184,8 +184,7 @@ public class Modificacion extends AppCompatActivity
             //Se abre un activity con un ListView para los telefonos de ese contacto
             Intent i = new Intent(this,TelefonosContacto.class);
             i.putExtra("idContac",idC);
-            startActivityForResult(i,SUBACTIVIDAD_TELEFONOS); //!! al terminar con los telefonos hay q actualizar la pantalla d
-            //!! modificar por si se ha borrado el primer telefono o foto.
+            startActivityForResult(i,SUBACTIVIDAD_TELEFONOS);
         } else {
             //!! ListView de las fotos
         }
@@ -326,7 +325,8 @@ public class Modificacion extends AppCompatActivity
                     calendario.get(Calendar.SECOND) + calendario.get(Calendar.MILLISECOND) + ".jpg");
         }
         else if (requestCode == SUBACTIVIDAD_TELEFONOS && resultCode == RESULT_OK){
-            //!!!!!actualizar los datos del activity de modificar...
+            //Sacamos el nuevo primer telefono, tras la modificacion de telefonos
+            tTelefono.setText(data.getExtras().get("primerTel").toString());
         }
     }
 

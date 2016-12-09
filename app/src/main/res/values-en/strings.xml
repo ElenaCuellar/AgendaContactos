@@ -58,4 +58,9 @@
     <string name="itTel">Manage contact phones</string>
     <string name="unTelBorrar">Delete</string>
     <string name="unTelMod">Modify</string>
+    <string name="telefonoModif">Modified phone</string>
+    <string name="telefonoErrorModif">Error while modifying phone</string>
+    <string name="menosdeuntel">You could not delete a phone when there is only one in the list</string>
+    <string name="unTelBorrado">Phone deleted</string>
+    <string name="unTelBorradoErr">Error while deleting the phone</string>
 </resources>

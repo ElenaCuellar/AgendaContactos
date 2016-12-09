@@ -73,4 +73,10 @@
     <string name="unTelMod">Modificar</string>
     <string name="unTelBorrar">Eliminar</string>
 
+    <string name="telefonoModif">Telefono modificado</string>
+    <string name="telefonoErrorModif">Error al modificar telefono</string>
+    <string name="menosdeuntel">No puede eliminar telefonos si solo queda uno</string>
+    <string name="unTelBorrado">Telefono eliminado</string>
+    <string name="unTelBorradoErr">Error al eliminar el telefono</string>
+
 </resources>

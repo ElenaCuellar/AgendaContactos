@@ -106,7 +106,6 @@ public class BDContactos extends SQLiteOpenHelper {
 
     public long borrarContacto(int idC) {
         long numReg = -1;
-        /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             numReg = db.delete("contactos", "id=" + idC, null);
@@ -135,6 +134,26 @@ public class BDContactos extends SQLiteOpenHelper {
         return numReg;
     }
 
+    public long borrarUntel(int idTel){
+        long numReg = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            numReg = db.delete("telefonos", "idTelefonos=" + idTel, null);
+        }
+        db.close();
+        return numReg;
+    }
+
+    public long borrarUnaFot(int idFot){
+        long numReg = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            numReg = db.delete("fotos", "idFoto=" + idFot, null);
+        }
+        db.close();
+        return numReg;
+    }
+
     /*UPDATE de Contactos, Telefonos y Fotos*/
 
     public long modificarContacto(Contacto c){
@@ -148,6 +167,18 @@ public class BDContactos extends SQLiteOpenHelper {
             valores.put("webBlog", c.getWeb());
             numReg = db.update("contactos", valores, "id=" +
                     c.getID(), null);
+        }
+        db.close();
+        return numReg;
+    }
+
+    public long modificarTelefono(Telefono t, String tel){
+        long numReg = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            ContentValues valores = new ContentValues();
+            valores.put("telefono", tel);
+            numReg = db.update("telefonos", valores, "idTelefonos=" + t.getId(), null);
         }
         db.close();
         return numReg;
@@ -189,6 +220,27 @@ public class BDContactos extends SQLiteOpenHelper {
         db.close();
         if(arrayContactos.size()>0)
             return arrayContactos;
+        else
+            return null;
+    }
+
+    public ArrayList<Telefono> obtenerTelefonos(int idContacto){
+        ArrayList<Telefono> arrayT = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+            String[] campos = {"idTelefonos","telefono","idContacto"};
+            Cursor c = db.query("telefonos", campos,"idContacto="+idContacto, null, null,
+                    null, null, null);
+            if (c.moveToFirst())
+                do {
+                    telefono = new Telefono(c.getInt(0), c.getString(1), c.getInt(2));
+                    arrayT.add(telefono);
+                }while(c.moveToNext());
+            c.close();
+        }
+        db.close();
+        if(arrayT.size()>0)
+            return arrayT;
         else
             return null;
     }
@@ -264,4 +316,5 @@ public class BDContactos extends SQLiteOpenHelper {
         db.close();
         return -1;
     }
+
 }

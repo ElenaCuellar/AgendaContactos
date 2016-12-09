@@ -1,5 +1,6 @@
 package com.example.caxidy.agendacontactos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ public class TelefonosContacto extends AppCompatActivity {
     ArrayList<Telefono> arrayTels;
     AdaptadorTelefonos adp;
     int idContacto;
+    BDContactos bd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,11 +24,14 @@ public class TelefonosContacto extends AppCompatActivity {
         arrayTels = new ArrayList<>();
 
         idContacto = getIntent().getExtras().getInt("idContac");
-        //!!sacar los telefonos del contacto y pasarlos al arraylist --Z hacer metodo en la clase de la bd
+        bd = new BDContactos(this);
 
-        adp = new AdaptadorTelefonos(this,arrayTels);
+        arrayTels=bd.obtenerTelefonos(idContacto);
+        if(arrayTels==null)
+            arrayTels = new ArrayList<>();
+
+        adp = new AdaptadorTelefonos(this, arrayTels);
         adp.notifyDataSetChanged();
-
         listaT.setAdapter(adp);
     }
 
@@ -37,5 +42,13 @@ public class TelefonosContacto extends AppCompatActivity {
         adp = new AdaptadorTelefonos(this,arrayTels);
         adp.notifyDataSetChanged();
         listaT.setAdapter(adp);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent datos = new Intent();
+        datos.putExtra("primerTel",bd.consultarTelefono(idContacto).getTelefono());
+        setResult(RESULT_OK,datos);
+        finish();
     }
 }

@@ -1,11 +1,8 @@
 /*Ampliacion opcional: añadir dos acciones mas al drawer:
-* 1)Borrar o modificar los telefonos del contacto concreto
+* 1)Borrar o modificar los telefonos del contacto concreto -DONE
 * 2)Borrar o modificar las fotos del contacto concreto
-* Para ello, pueden ser dos ListView en los que, para los telefonos (cada item) se vea un telefono en un editText y dos botones: confirmar modificacion
-* (se puede modificar el telefono del edittext --> update de la bd) y borrar telefono. Para las fotos, cada item tendra un
- * imageView con la foto, un Textview para añadir un comentario a la foto, un boton para agregar el comentario ("Actualizar foto")
- * y un boton para borrar la foto de la bd.
- * Finalmente, en esta ampliacion hay que usar SharedPreferences para el edittext del telefono y el edittext de la descripcion de la foto*/
+ Para las fotos, cada item tendra un imageView con la foto, un Textview para añadir un comentario a la foto,
+ un boton para agregar el comentario ("Actualizar comentario") y un boton para borrar la foto de la bd.*/
 
 /*Proyecto de fin de trimestre: agenda de contactos + ejercicio 1: poner botones en los elementos del ListView*/
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,13 @@ public class AdaptadorTelefonos extends BaseAdapter {
 
     private ArrayList<Telefono> lista;
     private final Activity actividad;
+    BDContactos bd;
 
     public AdaptadorTelefonos(Activity a, ArrayList<Telefono> v){
         super();
         this.lista = v;
         this.actividad = a;
+        bd = new BDContactos(this.actividad);
     }
 
     @Override
@@ -37,22 +40,39 @@ public class AdaptadorTelefonos extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater ly = actividad.getLayoutInflater();
         View view = ly.inflate(R.layout.telefono, null, true);
-        EditText textoTel = (EditText) view.findViewById(R.id.unTelefono);
+        final EditText textoTel = (EditText) view.findViewById(R.id.unTelefono);
         textoTel.setText(lista.get(position).getTelefono());
         Button botonMod = (Button) view.findViewById(R.id.unTelBMod);
         Button botonEliminar = (Button) view.findViewById(R.id.unTelBBorrar);
+        final int posicionTel = position;
 
         botonMod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //!!!
+                //Modificar el numero de telefono indicado
+                long regMod = bd.modificarTelefono(lista.get(posicionTel),textoTel.getText().toString());
+                if(regMod!=-1)
+                    Toast.makeText(actividad,actividad.getString(R.string.telefonoModif),Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(actividad,actividad.getString(R.string.telefonoErrorModif),Toast.LENGTH_SHORT).show();
             }
         });
 
         botonEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //!!!!
+                if(getCount()>1){
+                    long regMod = bd.borrarUntel(lista.get(posicionTel).getId());
+                    if(regMod!=-1) {
+                        lista.remove(posicionTel);
+                        notifyDataSetChanged();
+                        Toast.makeText(actividad, actividad.getString(R.string.unTelBorrado), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(actividad,actividad.getString(R.string.unTelBorradoErr),Toast.LENGTH_SHORT).show();
+                }
+                else
+                    Toast.makeText(actividad,actividad.getString(R.string.menosdeuntel),Toast.LENGTH_SHORT).show();
             }
         });
         return view;
