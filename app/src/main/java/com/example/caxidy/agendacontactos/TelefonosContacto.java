@@ -51,4 +51,12 @@ public class TelefonosContacto extends AppCompatActivity {
         setResult(RESULT_OK,datos);
         finish();
     }
+
+    public void actualizarAdaptador(){
+        arrayTels=bd.obtenerTelefonos(idContacto);
+        if(arrayTels==null)
+            arrayTels = new ArrayList<>();
+        adp.actualizarDatos(arrayTels);
+        listaT.setAdapter(adp);
+    }
 }

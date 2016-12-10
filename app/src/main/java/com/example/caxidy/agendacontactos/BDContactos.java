@@ -71,10 +71,8 @@ public class BDContactos extends SQLiteOpenHelper {
 
     public long insertarTelefono(Telefono tel) {
         long numReg = -1;
-        /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-        /* en este metodo utilizaremos ContentValues */
             ContentValues valores = new ContentValues();
             valores.put("idTelefonos", tel.getId());
             valores.put("idContacto",tel.getIdContacto());
@@ -87,10 +85,8 @@ public class BDContactos extends SQLiteOpenHelper {
 
     public long insertarFotos(Foto fot) {
         long numReg = -1;
-        /* Abrimos la BD de Escritura */
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-        /* en este metodo utilizaremos ContentValues */
             ContentValues valores = new ContentValues();
             valores.put("idFoto", fot.getId());
             valores.put("nomFichero",fot.getNombreFichero());
@@ -184,6 +180,18 @@ public class BDContactos extends SQLiteOpenHelper {
         return numReg;
     }
 
+    public long modificarFoto(Foto f, String descripcion){
+        long numReg = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            ContentValues valores = new ContentValues();
+            valores.put("observFoto", descripcion);
+            numReg = db.update("fotos", valores, "idFoto=" + f.getId(), null);
+        }
+        db.close();
+        return numReg;
+    }
+
     /*SELECT de Contactos, Telefonos y Fotos*/
 
     public Contacto consultarContacto(int id) {
@@ -245,11 +253,32 @@ public class BDContactos extends SQLiteOpenHelper {
             return null;
     }
 
+    public ArrayList<Foto> obtenerFotos(int idContacto){
+        ArrayList<Foto> arrayF = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+            String[] campos = {"idFoto","nomFichero","observFoto","idContacto"};
+            Cursor c = db.query("fotos", campos,"idContacto="+idContacto, null, null,
+                    null, null, null);
+            if (c.moveToFirst())
+                do {
+                    foto = new Foto(c.getInt(0), c.getString(1),c.getString(2), c.getInt(3));
+                    arrayF.add(foto);
+                }while(c.moveToNext());
+            c.close();
+        }
+        db.close();
+        if(arrayF.size()>0)
+            return arrayF;
+        else
+            return null;
+    }
+
     public Telefono consultarTelefono(int id) {
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"idTelefonos", "telefono", "idContacto"};
-            Cursor c = db.query("telefonos", campos, "idTelefonos=" + id, null, null,
+            Cursor c = db.query("telefonos", campos, "idContacto=" + id, null, null,
                     null, null, null);
             if (c.moveToFirst())
                 telefono = new Telefono(c.getInt(0), c.getString(1), c.getInt(2));
@@ -263,7 +292,7 @@ public class BDContactos extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
             String[] campos = {"idFoto", "nomFichero", "observFoto", "idContacto"};
-            Cursor c = db.query("fotos", campos, "idFoto=" + id, null, null,
+            Cursor c = db.query("fotos", campos, "idContacto=" + id, null, null,
                     null, null, null);
             if (c.moveToFirst())
                 foto = new Foto(c.getInt(0), c.getString(1), c.getString(2), c.getInt(3));

@@ -79,4 +79,13 @@
     <string name="unTelBorrado">Telefono eliminado</string>
     <string name="unTelBorradoErr">Error al eliminar el telefono</string>
 
+    <string name="tituloDescrip">Descripcion de foto</string>
+    <string name="unaFBotonMod">Modificar descripcion</string>
+    <string name="unaFBotonBorrar">Eliminar foto</string>
+    <string name="fotoModif">Foto modificada</string>
+    <string name="fotoErrorModif">Error al modificar la foto</string>
+    <string name="menosdeunafoto">No puede eliminar fotos si solo queda una</string>
+    <string name="unaFotBorrada">Foto eliminada</string>
+    <string name="unaFotBorradaErr">Error al eliminar la foto</string>
+
 </resources>

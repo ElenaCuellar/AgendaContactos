@@ -28,6 +28,7 @@
         <activity android:name=".Preferencias"></activity>
         <activity android:name=".Modificacion"></activity>
         <activity android:name=".TelefonosContacto"></activity>
+        <activity android:name=".FotosContacto"></activity>
     </application>
 
 </manifest>

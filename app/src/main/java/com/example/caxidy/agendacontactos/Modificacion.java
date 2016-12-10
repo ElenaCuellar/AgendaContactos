@@ -40,7 +40,7 @@ public class Modificacion extends AppCompatActivity
     ArrayList<Foto> listaFotos;
     BDContactos bd;
     Contacto contacto;
-    private static final int FOTO_GALERIA=1, FOTO_CAMARA = 2, SUBACTIVIDAD_TELEFONOS=3;
+    private static final int FOTO_GALERIA=1, FOTO_CAMARA = 2, SUBACTIVIDAD_TELEFONOS=3, SUBACTIVIDAD_FOTOS=4;
     Uri fotoGaleria;
     private static OutputStream os;
     private static File ruta;
@@ -186,7 +186,10 @@ public class Modificacion extends AppCompatActivity
             i.putExtra("idContac",idC);
             startActivityForResult(i,SUBACTIVIDAD_TELEFONOS);
         } else {
-            //!! ListView de las fotos
+            //Activity con ListView para las fotos de ese contacto
+            Intent i = new Intent(this,FotosContacto.class);
+            i.putExtra("idContacF",idC);
+            startActivityForResult(i,SUBACTIVIDAD_FOTOS);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -327,6 +330,19 @@ public class Modificacion extends AppCompatActivity
         else if (requestCode == SUBACTIVIDAD_TELEFONOS && resultCode == RESULT_OK){
             //Sacamos el nuevo primer telefono, tras la modificacion de telefonos
             tTelefono.setText(data.getExtras().get("primerTel").toString());
+            telefonoPpal = tTelefono.getText().toString();
+        }
+        else if (requestCode == SUBACTIVIDAD_FOTOS && resultCode == RESULT_OK){
+            //Sacamos la nueva primera foto, tras la modificacion de fotos
+            String nuevaFoto = data.getExtras().get("primeraFoto").toString();
+            tFoto.setText(nuevaFoto);
+            File archivoImg = new File(getExternalFilesDir(null)+"/"+nuevaFoto);
+            if(archivoImg.exists()){
+                imVFoto = (ImageView) findViewById(R.id.fotoUsuario);
+                imVFoto.setImageBitmap(BitmapFactory.decodeFile(archivoImg.getAbsolutePath()));
+                imVFoto.setAdjustViewBounds(true);
+            }
+            fotoPpal = nuevaFoto;
         }
     }
 

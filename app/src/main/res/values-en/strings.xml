@@ -63,4 +63,12 @@
     <string name="menosdeuntel">You could not delete a phone when there is only one in the list</string>
     <string name="unTelBorrado">Phone deleted</string>
     <string name="unTelBorradoErr">Error while deleting the phone</string>
+    <string name="tituloDescrip">Photo description</string>
+    <string name="unaFBotonBorrar">Delete photo</string>
+    <string name="unaFBotonMod">Modify description</string>
+    <string name="menosdeunafoto">You could not delete a photo when there is only one in the list</string>
+    <string name="unaFotBorrada">Photo deleted</string>
+    <string name="unaFotBorradaErr">Error while deleting the photo</string>
+    <string name="fotoErrorModif">Error while modifying the photo</string>
+    <string name="fotoModif">Photo modified</string>
 </resources>

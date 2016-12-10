@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
+    <ImageView
+        android:id="@+id/fotoContac"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
+    <TextView
+        android:text="@string/tituloDescrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_toRightOf="@id/fotoContac"
+        android:id="@+id/textVDes" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:textSize="@dimen/text_size_small"
+        android:layout_below="@id/textVDes"
+        android:layout_toRightOf="@id/fotoContac"
+        android:id="@+id/unaDescr" />
+
+    <Button
+        android:text="@string/unaFBotonMod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/unaDescr"
+        android:id="@+id/unaFBMod" />
+
+    <Button
+        android:text="@string/unaFBotonBorrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_below="@id/unaDescr"
+        android:layout_toRightOf="@id/unaFBMod"
+        android:id="@+id/unaFBBorrar" />
+</RelativeLayout>

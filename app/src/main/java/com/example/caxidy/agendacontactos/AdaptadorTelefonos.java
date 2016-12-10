@@ -65,7 +65,9 @@ public class AdaptadorTelefonos extends BaseAdapter {
                     long regMod = bd.borrarUntel(lista.get(posicionTel).getId());
                     if(regMod!=-1) {
                         lista.remove(posicionTel);
-                        notifyDataSetChanged();
+                        //Tenemos que actualizar los datos de los elementos de la lista
+                        TelefonosContacto actListaTel = (TelefonosContacto) actividad;
+                        actListaTel.actualizarAdaptador();
                         Toast.makeText(actividad, actividad.getString(R.string.unTelBorrado), Toast.LENGTH_SHORT).show();
                     }
                     else
@@ -77,4 +79,11 @@ public class AdaptadorTelefonos extends BaseAdapter {
         });
         return view;
     }
+
+    public void actualizarDatos(ArrayList<Telefono> nuevaLista){
+        lista.clear();
+        lista.addAll(nuevaLista);
+        notifyDataSetChanged();
+    }
+
 }
