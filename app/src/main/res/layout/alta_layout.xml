@@ -17,10 +17,8 @@
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_menu_camera"
-                android:id="@+id/fotoUsuario"
-                android:minHeight="75dp"
-                android:minWidth="75dp" />
+                app:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/fotoUsuario" />
 
             <TextView
                 android:text="@string/nombre"

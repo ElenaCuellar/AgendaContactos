@@ -74,7 +74,7 @@ public class AdaptadorContactos extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_CALL);
-                i.setData(Uri.parse("tel:654092398"));
+                i.setData(Uri.parse("tel:"+tTel.getText().toString()));
                 if (ContextCompat.checkSelfPermission(actividad.getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     //si el permiso no esta concedido, se hace una peticion
                     ActivityCompat.requestPermissions(actividad, new String[]{Manifest.permission.CALL_PHONE},1);

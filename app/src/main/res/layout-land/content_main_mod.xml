@@ -24,14 +24,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_menu_camera"
-                android:id="@+id/fotoUsuario"
-                android:minHeight="75dp"
-                android:minWidth="75dp" />
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/fotoUsuario" />
 
             <TextView
                 android:text="@string/nombre"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/fotoUsuario"
@@ -42,7 +40,6 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:inputType="textPersonName"
                 android:text=""
                 android:hint="@string/nombre"
@@ -52,34 +49,11 @@
                 android:id="@+id/txNombre" />
 
             <TextView
-                android:text="@string/direccion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_above="@id/txNombre"
-                android:layout_toRightOf="@id/txNombre"
-                android:id="@+id/lbDir"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:inputType="text"
-                android:text=""
-                android:hint="@string/direccion"
-                android:ems="10"
-                android:layout_below="@id/lbDir"
-                android:layout_toRightOf="@id/txNombre"
-                android:id="@+id/txDir" />
-
-            <TextView
                 android:text="@string/telefono"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txNombre"
+                android:layout_toRightOf="@id/fotoUsuario"
                 android:id="@+id/lbTelefono"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -92,6 +66,7 @@
                 android:hint="@string/telefono"
                 android:ems="10"
                 android:layout_below="@id/lbTelefono"
+                android:layout_toRightOf="@id/fotoUsuario"
                 android:id="@+id/txTelefono" />
 
             <ImageButton
@@ -100,15 +75,36 @@
                 app:srcCompat="@android:drawable/ic_input_add"
                 android:layout_below="@id/lbTelefono"
                 android:layout_toRightOf="@id/txTelefono"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:id="@+id/bAltaTel" />
+
+            <TextView
+                android:text="@string/direccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txTelefono"
+                android:layout_toRightOf="@id/fotoUsuario"
+                android:id="@+id/lbDir"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text=""
+                android:hint="@string/direccion"
+                android:ems="10"
+                android:layout_below="@id/lbDir"
+                android:layout_toRightOf="@id/fotoUsuario"
+                android:id="@+id/txDir" />
 
             <TextView
                 android:text="@string/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txNombre"
-                android:layout_toRightOf="@id/txNombre"
+                android:layout_below="@id/txDir"
+                android:layout_toRightOf="@id/fotoUsuario"
                 android:id="@+id/lbEmail"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -120,50 +116,19 @@
                 android:text=""
                 android:hint="@string/email"
                 android:ems="10"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_below="@id/lbEmail"
-                android:layout_toRightOf="@id/bAltaTel"
+                android:layout_toRightOf="@id/fotoUsuario"
                 android:id="@+id/txEmail" />
 
             <TextView
                 android:text="@string/web"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_below="@id/txEmail"
-                android:layout_toRightOf="@id/bAltaTel"
+                android:layout_toRightOf="@id/fotoUsuario"
                 android:id="@+id/lbWeb"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
-
-            <TextView
-                android:text="@string/foto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txTelefono"
-                android:id="@+id/lbFoto"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textUri"
-                android:text=""
-                android:hint="@string/fotoHint"
-                android:ems="14"
-                android:textSize="@dimen/text_size_small"
-                android:layout_below="@id/lbFoto"
-                android:id="@+id/txFoto" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:layout_below="@id/bAltaTel"
-                android:layout_toRightOf="@id/txFoto"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:id="@+id/bAltaFoto" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -174,8 +139,40 @@
                 android:ems="10"
                 android:id="@+id/txWeb"
                 android:layout_below="@+id/lbWeb"
-                android:layout_toRightOf="@+id/bAltaFoto"
-                android:layout_toEndOf="@+id/bAltaFoto" />
+                android:layout_toRightOf="@id/fotoUsuario" />
+
+            <TextView
+                android:text="@string/foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txWeb"
+                android:layout_toRightOf="@id/fotoUsuario"
+                android:id="@+id/lbFoto"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:text=""
+                android:hint="@string/fotoHint"
+                android:enabled="false"
+                android:ems="14"
+                android:textSize="@dimen/text_size_small"
+                android:layout_below="@id/lbFoto"
+                android:layout_toRightOf="@id/fotoUsuario"
+                android:id="@+id/txFoto" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_input_add"
+                android:layout_below="@id/lbFoto"
+                android:layout_toRightOf="@id/txFoto"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:id="@+id/bAltaFoto" />
+
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

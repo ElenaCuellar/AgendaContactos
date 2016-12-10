@@ -309,7 +309,7 @@ public class Modificacion extends AppCompatActivity
             Bitmap bm;
             try {
                 bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
-                Bitmap bResized = Bitmap.createBitmap(bm,0,0,imVFoto.getWidth(),imVFoto.getHeight());
+                Bitmap bResized = Bitmap.createScaledBitmap(bm,250,250,true);
                 //Poner la foto en el imageView
                 imVFoto.setImageBitmap(bResized);
                 //Poner la ruta (nombre del fichero) en el edittext

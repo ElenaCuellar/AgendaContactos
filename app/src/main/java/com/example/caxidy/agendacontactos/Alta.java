@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +19,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import  java.util.Calendar;
@@ -90,69 +94,6 @@ public class Alta extends AppCompatActivity {
         listaTelefonos = new ArrayList<>();
         listaFotos = new ArrayList<>();
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        tNombre.setText(sharedPref.getString("shNombre", ""));
-        tTelefono.setText(sharedPref.getString("shTel", ""));
-        tDir.setText(sharedPref.getString("shDir", ""));
-        tEmail.setText(sharedPref.getString("shEmail", ""));
-        tWeb.setText(sharedPref.getString("shWeb", ""));
-        tFoto.setText(sharedPref.getString("shFoto",""));
-
-        if(!sharedPref.getString("shFoto","").equals("")) {
-            File img = new File(getExternalFilesDir(null) + "/" + tFoto.getText().toString());
-            if (img.exists()) {
-                imVFoto.setImageBitmap(BitmapFactory.decodeFile(img.getAbsolutePath()));
-                imVFoto.setAdjustViewBounds(true);
-            }
-        }
-
-        Set<String> setT=sharedPref.getStringSet("shTels",null);
-        if(setT!=null) {
-            String[] arrT = (String[]) setT.toArray();
-            for (int i = 0; i < arrT.length; i++) {
-                Telefono tel = new Telefono(arrT[i]);
-                listaTelefonos.add(tel);
-            }
-        }
-
-        Set<String> setF=sharedPref.getStringSet("shFotos",null);
-        if(setF!=null) {
-            String[] arrF = (String[]) setF.toArray();
-            for (int i = 0; i < arrF.length; i++) {
-                Foto fot = new Foto(arrF[i], getString(R.string.sinD));
-                listaFotos.add(fot);
-            }
-        }
-
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("shNombre",tNombre.getText().toString());
-        editor.putString("shTel",tTelefono.getText().toString());
-        editor.putString("shDir",tDir.getText().toString());
-        editor.putString("shEmail",tEmail.getText().toString());
-        editor.putString("shWeb",tWeb.getText().toString());
-        editor.putString("shFoto",tFoto.getText().toString());
-
-        if(listaTelefonos.size()>0) {
-            Set<String> setTel = new HashSet<>();
-            for (int i = 0; i < listaTelefonos.size(); i++)
-                setTel.add(listaTelefonos.get(i).getTelefono());
-            editor.putStringSet("shTels", setTel);
-        }
-
-        if(listaFotos.size()>0) {
-            Set<String> setFotos = new HashSet<>();
-            for (int i = 0; i < listaFotos.size(); i++)
-                setFotos.add(listaFotos.get(i).getNombreFichero());
-            editor.putStringSet("shFotos", setFotos);
-        }
-
-        editor.commit();
     }
 
     public void pasarDatosAlta(){
@@ -230,10 +171,11 @@ public class Alta extends AppCompatActivity {
             fotoGaleria = data.getData();
             Bitmap bm;
             try {
-                bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
-                Bitmap bResized = Bitmap.createBitmap(bm,0,0,imVFoto.getWidth(),imVFoto.getHeight()); //Redimensionamos la imagen en el imageView
                 //Poner la foto en el imageView
-                imVFoto.setImageBitmap(bResized);
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
+                Bitmap bmResized = Bitmap.createScaledBitmap(bm,250,250,true);
+                imVFoto.setImageBitmap(bmResized);
+                imVFoto.setAdjustViewBounds(true);
                 //Poner la ruta (nombre del fichero) en el edittext
                 StringBuffer cadenaArchivo= new StringBuffer(fotoGaleria.getLastPathSegment()); //si el nombre del Edittext es muy largo, no coge bien toda la cadena...
                 if(cadenaArchivo.length()>22)
