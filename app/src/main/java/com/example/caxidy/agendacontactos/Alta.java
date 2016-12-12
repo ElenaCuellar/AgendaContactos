@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
@@ -94,6 +96,39 @@ public class Alta extends AppCompatActivity {
         listaTelefonos = new ArrayList<>();
         listaFotos = new ArrayList<>();
 
+    }
+
+    @Override
+    //Para guardar la informacion necesaria que se pierde al girar la pantalla
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("giroNombre", tNombre.getText().toString());
+        savedInstanceState.putString("giroTel", tTelefono.getText().toString());
+        savedInstanceState.putString("giroDir", tDir.getText().toString());
+        savedInstanceState.putString("giroEmail", tEmail.getText().toString());
+        savedInstanceState.putString("giroWeb", tWeb.getText().toString());
+        savedInstanceState.putString("giroFoto", tFoto.getText().toString());
+        BitmapDrawable drawable = (BitmapDrawable) imVFoto.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        savedInstanceState.putParcelable("giroImagen", bitmap);
+        savedInstanceState.putSerializable("giroListaTel",listaTelefonos);
+        savedInstanceState.putSerializable("giroListaF",listaFotos);
+        //!!Testear, sobre todoo las listas
+
+    }
+    @Override
+    //Para recuperar la informacion guardada al girar la pantalla
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        tNombre.setText(savedInstanceState.getString("giroNombre"));
+        tTelefono.setText(savedInstanceState.getString("giroTel"));
+        tDir.setText(savedInstanceState.getString("giroDir"));
+        tEmail.setText(savedInstanceState.getString("giroEmail"));
+        tWeb.setText(savedInstanceState.getString("giroWeb"));
+        tFoto.setText(savedInstanceState.getString("giroFoto"));
+        imVFoto.setImageBitmap((Bitmap)savedInstanceState.getParcelable("giroImagen"));
+        listaTelefonos.addAll((ArrayList<Telefono>)savedInstanceState.getSerializable("giroListaTel"));
+        listaFotos.addAll((ArrayList<Foto>)savedInstanceState.getSerializable("giroListaF"));
     }
 
     public void pasarDatosAlta(){
