@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -124,6 +125,36 @@ public class Modificacion extends AppCompatActivity
         }
         telefonoPpal = tTelefono.getText().toString();
         fotoPpal = tFoto.getText().toString();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("giroNombreMod", tNombre.getText().toString());
+        savedInstanceState.putString("giroTelMod", tTelefono.getText().toString());
+        savedInstanceState.putString("giroDirMod", tDir.getText().toString());
+        savedInstanceState.putString("giroEmailMod", tEmail.getText().toString());
+        savedInstanceState.putString("giroWebMod", tWeb.getText().toString());
+        savedInstanceState.putString("giroFotoMod", tFoto.getText().toString());
+        BitmapDrawable drawable = (BitmapDrawable) imVFoto.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        savedInstanceState.putParcelable("giroImagenMod", bitmap);
+        savedInstanceState.putSerializable("giroListaTelMod",listaTelefonos);
+        savedInstanceState.putSerializable("giroListaFMod",listaFotos);
+
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        tNombre.setText(savedInstanceState.getString("giroNombreMod"));
+        tTelefono.setText(savedInstanceState.getString("giroTelMod"));
+        tDir.setText(savedInstanceState.getString("giroDirMod"));
+        tEmail.setText(savedInstanceState.getString("giroEmailMod"));
+        tWeb.setText(savedInstanceState.getString("giroWebMod"));
+        tFoto.setText(savedInstanceState.getString("giroFotoMod"));
+        imVFoto.setImageBitmap((Bitmap)savedInstanceState.getParcelable("giroImagenMod"));
+        listaTelefonos.addAll((ArrayList<Telefono>)savedInstanceState.getSerializable("giroListaTelMod"));
+        listaFotos.addAll((ArrayList<Foto>)savedInstanceState.getSerializable("giroListaFMod"));
     }
 
     @Override
@@ -310,6 +341,8 @@ public class Modificacion extends AppCompatActivity
             try {
                 bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
                 Bitmap bResized = Bitmap.createScaledBitmap(bm,250,250,true);
+                if(imVFoto.getDrawingCache()!=null)
+                    imVFoto.destroyDrawingCache();
                 //Poner la foto en el imageView
                 imVFoto.setImageBitmap(bResized);
                 //Poner la ruta (nombre del fichero) en el edittext
@@ -321,7 +354,10 @@ public class Modificacion extends AppCompatActivity
         }
         else if (requestCode == FOTO_CAMARA && resultCode == RESULT_OK){
             Bitmap bm = (Bitmap) data.getExtras().get("data");
+            if(imVFoto.getDrawingCache()!=null)
+                imVFoto.destroyDrawingCache();
             imVFoto.setImageBitmap(bm);
+
             calendario = Calendar.getInstance();
             tFoto.setText("AgCont_" + calendario.get(Calendar.YEAR) + calendario.get(Calendar.MONTH) + calendario.get(Calendar.DAY_OF_MONTH) +
                     calendario.get(Calendar.HOUR_OF_DAY) + calendario.get(Calendar.MINUTE) +

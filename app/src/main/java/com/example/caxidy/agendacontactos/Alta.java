@@ -113,7 +113,6 @@ public class Alta extends AppCompatActivity {
         savedInstanceState.putParcelable("giroImagen", bitmap);
         savedInstanceState.putSerializable("giroListaTel",listaTelefonos);
         savedInstanceState.putSerializable("giroListaF",listaFotos);
-        //!!Testear, sobre todoo las listas
 
     }
     @Override
@@ -209,6 +208,8 @@ public class Alta extends AppCompatActivity {
                 //Poner la foto en el imageView
                 bm = MediaStore.Images.Media.getBitmap(getContentResolver(),fotoGaleria);
                 Bitmap bmResized = Bitmap.createScaledBitmap(bm,250,250,true);
+                if(imVFoto.getDrawingCache()!=null)
+                    imVFoto.destroyDrawingCache();
                 imVFoto.setImageBitmap(bmResized);
                 imVFoto.setAdjustViewBounds(true);
                 //Poner la ruta (nombre del fichero) en el edittext
@@ -220,6 +221,8 @@ public class Alta extends AppCompatActivity {
         }
         else if (requestCode == FOTO_CAMARA && resultCode == RESULT_OK){
             Bitmap bm = (Bitmap) data.getExtras().get("data");
+            if(imVFoto.getDrawingCache()!=null)
+                imVFoto.destroyDrawingCache();
             imVFoto.setImageBitmap(bm);
             //Para ponerle la fecha y hora a las fotos sacadas con la camara (para nombre unico)
             calendario = Calendar.getInstance();

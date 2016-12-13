@@ -1,7 +1,6 @@
 package com.example.caxidy.agendacontactos;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,11 +75,19 @@ public class AdaptadorFotos extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if(getCount()>1){
-                    long regMod = bd.borrarUnaFot(lista.get(posicionFot).getId());
+                    String nombreFich = lista.get(posicionFot).getNombreFichero();
+                    long regMod = bd.borrarUnaFot(lista.get(posicionFot).getId()); //borrar foto de la BD
                     if(regMod!=-1) {
+                        //Borrar foto de la lista
                         lista.remove(posicionFot);
                         FotosContacto actListaFotos = (FotosContacto) actividad;
                         actListaFotos.actualizarAdaptador();
+
+                        //Borrar foto de la carpeta Files del proyecto
+                        File archBorrar=new File(actListaFotos.getExternalFilesDir(null).getAbsolutePath()+"/"+nombreFich);
+                        if(archBorrar.exists() && archBorrar.isFile())
+                            archBorrar.delete();
+
                         Toast.makeText(actividad, actividad.getString(R.string.unaFotBorrada), Toast.LENGTH_SHORT).show();
                     }
                     else
